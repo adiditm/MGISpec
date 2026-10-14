@@ -2,7 +2,7 @@
 
 **Project Name:** MGISpec Catalog Website  
 **Client:** Bpk Bram Setiawan Liem (MGISpec / MGIClub Global)  
-**Agreed Proposal:** [Penawaran_Katalog_Kacamata_Rev4.pdf](stuff/proposals/Penawaran_Katalog_Kacamata_Rev4.pdf) (Rp 5.000.000 / Web + CMS Scope)  
+**Feature Specification Reference:** [Penawaran_Katalog_Kacamata_Rev4.1.pdf](Penawaran_Katalog_Kacamata_Rev4.1.pdf) (Acuan Fitur & Ruang Lingkup Sistem)  
 **Hosting Target:** Dewaweb.com (cPanel Cloud Hosting, PHP 8.2/8.3, MySQL/MariaDB, LiteSpeed)  
 **Language Support:** Dual Language (🇮🇩 Bahasa Indonesia `id` & 🇵🇭 Philippines `ph`)  
 
@@ -209,8 +209,10 @@ Seluruh bahan proyek telah diklasifikasikan dan disimpan di direktori `stuff/` a
    - `header jgn lupa pilihan bahasa dan halaman login tapi gk perlu shopping cart.jpeg` : Catatan header klien.
    - `antara slider besar dengan slider kecil2 dibawah.jpeg` : Referensi section kartu manfaat / promo.
    - `home_diatas_footer.jpeg` : Referensi section thumbnail produk tanpa harga di atas footer.
-4. **`stuff/proposals/`**
-   - `Penawaran_Katalog_Kacamata_Rev4.pdf` & `.docx` : Dokumen penawaran resmi yang telah disepakati (deal).
+4. **`stuff/proposals/` & Root**
+   - `Penawaran_Katalog_Kacamata_Rev4.1.pdf` & `.docx` : Dokumen acuan fitur & spesifikasi teknis tanpa harga (terlacak di Git).
+   - `RANGKUMAN_CHAT_CLIENT.md` : Rangkuman kebutuhan klien dan rekomendasi teknis (terlacak di Git).
+   - *Catatan:* Dokumen penawaran komersial yang memuat nominal harga (Rev 4) disimpan sebagai arsip internal privat dan dikecualikan oleh `.gitignore`.
 5. **`stuff/mockup/`**
    - `index.html` : Mockup beranda interaktif yang telah disesuaikan 100% dengan permintaan klien.
    - `product-details.html` : Mockup halaman detail katalog produk.
