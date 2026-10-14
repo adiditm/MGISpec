@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGISpec - Bio-Tech Eye Glasses | Oxygen Glasses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <!-- Top Announcement Bar (Optional / Dual Language & Contact) -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <span><i class="fas fa-shield-alt text-amber-400 mr-1"></i> Official Bio-Tech Medical Device Glasses</span>
+                <span class="hidden sm:inline text-slate-500">|</span>
+                <span class="hidden sm:inline"><i class="fas fa-certificate text-blue-400 mr-1"></i> FDA Registered & MDA Approved</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Dual Language Selector (ID & PH) -->
+                <div class="relative inline-block text-left" id="langDropdownWrapper">
+                    <button id="langBtn" class="flex items-center space-x-1.5 text-white bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded border border-slate-700 text-xs font-medium focus:outline-none transition">
+                        <span id="currentFlag" class="text-sm">🇮🇩</span>
+                        <span id="currentLang">ID (Bahasa)</span>
+                        <i class="fas fa-chevron-down text-[10px] ml-1 text-slate-400"></i>
+                    </button>
+                    <div id="langMenu" class="hidden absolute right-0 mt-1 w-36 bg-white rounded-md shadow-lg py-1 z-50 text-gray-700 border text-xs">
+                        <a href="javascript:void(0)" onclick="switchLanguage('id', '🇮🇩', 'ID (Bahasa)')" class="flex items-center px-3 py-2 hover:bg-blue-50 font-medium">
+                            <span class="text-sm mr-2">🇮🇩</span> Indonesia (ID)
+                        </a>
+                        <a href="javascript:void(0)" onclick="switchLanguage('ph', '🇵🇭', 'PH (Philippines)')" class="flex items-center px-3 py-2 hover:bg-blue-50 font-medium">
+                            <span class="text-sm mr-2">🇵🇭</span> Philippines (PH)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Login Button (No Shopping Cart) -->
+                <a href="#login" class="flex items-center text-white hover:text-amber-400 font-medium transition space-x-1 text-xs">
+                    <i class="fas fa-user-circle text-sm"></i>
+                    <span data-i18n="login">Login</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white border-b shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <a href="index.html" class="flex items-center space-x-3">
+                <img src="assets/images/logo.png" alt="MGISpec Logo" class="h-10 md:h-12 w-auto object-contain">
+            </a>
+
+            <!-- Desktop Nav Menu -->
+            <nav class="hidden lg:flex space-x-7 text-sm font-medium text-gray-700">
+                <a href="index.html" class="text-blue-600 hover:text-blue-700 font-semibold" data-i18n="nav_home">Home</a>
+                <a href="product-details.html" class="hover:text-blue-600 transition" data-i18n="nav_catalog">Katalog Produk</a>
+                <a href="#invention" class="hover:text-blue-600 transition" data-i18n="nav_invention">The IONSPEC Invention</a>
+                <a href="#about" class="hover:text-blue-600 transition" data-i18n="nav_about">Tentang Kami</a>
+                <a href="#certifications" class="hover:text-blue-600 transition" data-i18n="nav_cert">Sertifikasi</a>
+                <a href="#faq" class="hover:text-blue-600 transition">FAQ</a>
+                <a href="#contact" class="hover:text-blue-600 transition" data-i18n="nav_contact">Kontak</a>
+            </nav>
+
+            <!-- Header Right Icons -->
+            <div class="flex items-center space-x-3">
+                <!-- Search Button -->
+                <button class="text-gray-600 hover:text-blue-600 p-2 text-base transition">
+                    <i class="fas fa-search"></i>
+                </button>
+                <!-- Facebook Community (as seen on reference) -->
+                <a href="https://facebook.com" target="_blank" class="text-gray-600 hover:text-blue-600 p-2 text-base transition hidden sm:inline-block">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="lg:hidden text-gray-700 hover:text-blue-600 p-2 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t px-4 py-4 space-y-3 shadow-md">
+            <a href="index.html" class="block text-blue-600 font-semibold py-1.5" data-i18n="nav_home">Home</a>
+            <a href="product-details.html" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium" data-i18n="nav_catalog">Katalog Produk</a>
+            <a href="#invention" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium" data-i18n="nav_invention">The IONSPEC Invention</a>
+            <a href="#about" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium" data-i18n="nav_about">Tentang Kami</a>
+            <a href="#certifications" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium" data-i18n="nav_cert">Sertifikasi</a>
+            <a href="#faq" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">FAQ</a>
+            <a href="#contact" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium" data-i18n="nav_contact">Kontak</a>
+            <div class="pt-3 border-t flex justify-between items-center">
+                <span class="text-xs text-gray-500 font-medium">Social:</span>
+                <a href="https://facebook.com" target="_blank" class="text-blue-600 text-sm flex items-center space-x-1">
+                    <i class="fab fa-facebook-f"></i> <span>Facebook Official</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Full Screen Hero Slider (Desktop & Mobile Full Viewport) -->
+    <!-- As requested by client: "slider home page bkin besar full screen di desktop maupun mobile view" -->
+    <section class="relative w-full h-[85vh] md:h-[92vh] overflow-hidden bg-black group" id="heroSliderSection">
+        
+        <!-- Slide 1: Reference "GET IT RIGHT" Banner -->
+        <div class="slider-item absolute inset-0 transition-opacity duration-1000 opacity-100 flex items-center justify-center">
+            <!-- Desktop Image -->
+            <img src="assets/images/slider_desktop.jpg" alt="GET IT RIGHT Desktop Banner" class="hidden md:block w-full h-full object-cover">
+            <!-- Mobile Image -->
+            <img src="assets/images/slider_mobile.jpg" alt="GET IT RIGHT Mobile Banner" class="block md:hidden w-full h-full object-cover">
+            
+            <!-- Dark Gradient Overlay for Readability -->
+            <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent md:block hidden"></div>
+            
+            <div class="absolute inset-0 flex items-center">
+                <div class="container mx-auto px-6 md:px-12 text-white">
+                    <div class="max-w-xl">
+                        <span class="inline-block bg-blue-600/90 text-white text-xs uppercase tracking-widest px-3 py-1 rounded font-semibold mb-3">Bio-Tech Oxygen Glasses</span>
+                        <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3">GET IT RIGHT</h1>
+                        <p class="text-gray-300 text-base md:text-xl font-light mb-6" data-i18n="hero_sub_1">
+                            Perlindungan mata revolusioner dengan nano teknologi ion & oksigen alami untuk kesehatan penglihatan Anda.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#thumbnails-section" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-7 py-3.5 rounded-lg font-semibold text-sm md:text-base shadow-lg transition duration-200" data-i18n="hero_btn_explore">
+                                Jelajahi Katalog
+                            </a>
+                            <a href="product-details.html" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white border border-white/40 px-6 py-3.5 rounded-lg font-semibold text-sm md:text-base transition duration-200" data-i18n="hero_btn_detail">
+                                Lihat Detail Seri
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: High Tech Eyewear Concept -->
+        <div class="slider-item absolute inset-0 transition-opacity duration-1000 opacity-0 flex items-center justify-center">
+            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="MGI Premium Eyewear" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/60"></div>
+            <div class="absolute inset-0 flex items-center">
+                <div class="container mx-auto px-6 md:px-12 text-white text-center md:text-left">
+                    <div class="max-w-xl">
+                        <span class="inline-block bg-amber-500 text-black text-xs uppercase tracking-widest px-3 py-1 rounded font-bold mb-3">Hospital Grade Certified</span>
+                        <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3">IONSPEC Series M40</h2>
+                        <p class="text-gray-200 text-base md:text-xl font-light mb-6" data-i18n="hero_sub_2">
+                            Frame ergonomis berteknologi batu germanium & inframerah jauh, meredakan ketegangan mata & migrain.
+                        </p>
+                        <a href="product-details.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-7 py-3.5 rounded-lg font-semibold text-sm md:text-base shadow-lg transition duration-200" data-i18n="hero_btn_explore">
+                            Detail Spesifikasi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls: Prev / Next Buttons -->
+        <button id="sliderPrev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-12 h-12 rounded-full flex items-center justify-center transition duration-200 z-20">
+            <i class="fas fa-chevron-left text-lg"></i>
+        </button>
+        <button id="sliderNext" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-12 h-12 rounded-full flex items-center justify-center transition duration-200 z-20">
+            <i class="fas fa-chevron-right text-lg"></i>
+        </button>
+
+        <!-- Slider Indicators / Dots -->
+        <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2 z-20">
+            <button class="slider-dot w-3 h-3 rounded-full bg-white transition duration-200" onclick="goToSlide(0)"></button>
+            <button class="slider-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition duration-200" onclick="goToSlide(1)"></button>
+        </div>
+
+        <!-- Floating Contact Badge (Matching Client Reference) -->
+        <div class="fixed bottom-6 right-6 z-40 flex items-center space-x-2 shadow-2xl">
+            <a href="https://wa.me/6281234567890" target="_blank" class="bg-white text-gray-900 px-4 py-2.5 rounded-full font-semibold text-xs md:text-sm shadow-md border hover:bg-gray-100 flex items-center space-x-2">
+                <span>Contact us</span>
+            </a>
+            <div class="relative bg-purple-600 hover:bg-purple-700 text-white w-11 h-11 rounded-full flex items-center justify-center shadow-lg cursor-pointer">
+                <i class="fas fa-comment-dots text-lg"></i>
+                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Antara Slider Besar dengan Slider Kecil2 Dibawah -->
+    <!-- As requested by client: "antara slider besar dengan slider kecil2 dibawah.jpeg" (Promo & Benefit Cards) -->
+    <section class="py-12 bg-white border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
+                <div>
+                    <span class="text-blue-600 font-bold text-xs uppercase tracking-wider block mb-1" data-i18n="benefit_tag">Program & Keunggulan Khusus</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900" data-i18n="benefit_title">Manfaat Eksklusif MGISPEC</h2>
+                </div>
+                <p class="text-gray-500 text-xs md:text-sm mt-2 md:mt-0 max-w-md" data-i18n="benefit_sub">
+                    Setiap frame IONSPEC dilengkapi sertifikasi medis internasional dan garansi keaslian resmi.
+                </p>
+            </div>
+
+            <!-- Promo Grid (Cards with Pink/Gradient accents like client reference) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <!-- Card 1 -->
+                <div class="bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl p-4 md:p-6 text-white text-center shadow-md relative overflow-hidden group hover:shadow-xl transition duration-300">
+                    <span class="absolute top-3 left-3 bg-black/30 backdrop-blur-sm text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">CERTIFIED</span>
+                    <div class="h-24 md:h-28 flex items-center justify-center my-2">
+                        <i class="fas fa-glasses text-4xl md:text-5xl opacity-90 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="inline-block bg-white text-rose-600 font-extrabold text-xs md:text-sm px-3 py-1 rounded-full uppercase mb-2 shadow-sm">
+                        OXYGEN LENSES
+                    </div>
+                    <p class="text-[11px] md:text-xs text-rose-100 font-light" data-i18n="benefit_card1_desc">
+                        Teknologi pelepasan ion negatif & oksigen untuk mata lelah.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-gradient-to-br from-rose-500 to-pink-600 rounded-2xl p-4 md:p-6 text-white text-center shadow-md relative overflow-hidden group hover:shadow-xl transition duration-300">
+                    <span class="absolute top-3 left-3 bg-black/30 backdrop-blur-sm text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">SAFETY</span>
+                    <div class="h-24 md:h-28 flex items-center justify-center my-2">
+                        <i class="fas fa-shield-virus text-4xl md:text-5xl opacity-90 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="inline-block bg-white text-rose-600 font-extrabold text-xs md:text-sm px-3 py-1 rounded-full uppercase mb-2 shadow-sm">
+                        ANTI RADIASI
+                    </div>
+                    <p class="text-[11px] md:text-xs text-rose-100 font-light" data-i18n="benefit_card2_desc">
+                        100% perlindungan dari sinar UV400 & radiasi blue light layar gadget.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-gradient-to-br from-pink-600 to-rose-700 rounded-2xl p-4 md:p-6 text-white text-center shadow-md relative overflow-hidden group hover:shadow-xl transition duration-300">
+                    <span class="absolute top-3 left-3 bg-black/30 backdrop-blur-sm text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">BONUS</span>
+                    <div class="h-24 md:h-28 flex items-center justify-center my-2">
+                        <i class="fas fa-gift text-4xl md:text-5xl opacity-90 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="inline-block bg-white text-rose-600 font-extrabold text-xs md:text-sm px-3 py-1 rounded-full uppercase mb-2 shadow-sm">
+                        FREE HARDCASE
+                    </div>
+                    <p class="text-[11px] md:text-xs text-rose-100 font-light" data-i18n="benefit_card3_desc">
+                        Gratis hardcase premium & microfiber cloth di setiap produk.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-gradient-to-br from-rose-600 to-purple-700 rounded-2xl p-4 md:p-6 text-white text-center shadow-md relative overflow-hidden group hover:shadow-xl transition duration-300">
+                    <span class="absolute top-3 left-3 bg-black/30 backdrop-blur-sm text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">OFFICIAL</span>
+                    <div class="h-24 md:h-28 flex items-center justify-center my-2">
+                        <i class="fas fa-award text-4xl md:text-5xl opacity-90 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="inline-block bg-white text-rose-600 font-extrabold text-xs md:text-sm px-3 py-1 rounded-full uppercase mb-2 shadow-sm">
+                        MDA MALAYSIA
+                    </div>
+                    <p class="text-[11px] md:text-xs text-rose-100 font-light" data-i18n="benefit_card4_desc">
+                        Terdaftar di Medical Device Authority MDA-3521-WDP122.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Home Diatas Footer (Thumbnail Katalog Kecil Tanpa Harga) -->
+    <!-- As requested by client: "di home diatas footer, kasi thumbnail kecil2 gini tapi tanpa harga... dan klo bsa semua item bsa masuk disitu" -->
+    <section class="py-16 bg-gray-50" id="thumbnails-section">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <span class="text-blue-600 font-bold text-xs uppercase tracking-wider block" data-i18n="catalog_tag">Semua Koleksi Produk</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900" data-i18n="catalog_title">Katalog Frame & Seri IONSPEC</h2>
+                </div>
+                <!-- Carousel Arrow Controls -->
+                <div class="flex space-x-2">
+                    <button id="thumbPrev" class="w-9 h-9 rounded-full bg-white border shadow-sm hover:bg-blue-600 hover:text-white flex items-center justify-center text-gray-600 transition">
+                        <i class="fas fa-chevron-left text-xs"></i>
+                    </button>
+                    <button id="thumbNext" class="w-9 h-9 rounded-full bg-white border shadow-sm hover:bg-blue-600 hover:text-white flex items-center justify-center text-gray-600 transition">
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Horizontal Scrollable Container (Showcases All Items Without Price) -->
+            <div id="thumbTrack" class="flex space-x-4 md:space-x-6 overflow-x-auto pb-4 pt-1 hide-scrollbar scroll-smooth">
+                
+                <!-- Item 1 -->
+                <div class="flex-none w-52 md:w-60 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition duration-200 overflow-hidden group">
+                    <a href="product-details.html" class="block relative bg-gray-100 overflow-hidden">
+                        <span class="absolute top-2.5 left-2.5 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Hospital Grade</span>
+                        <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="MGI IONSPEC M40" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                    <div class="p-3.5 text-center">
+                        <span class="text-[11px] text-gray-400 uppercase tracking-wider block mb-1">Medical Series</span>
+                        <h3 class="font-semibold text-sm text-gray-800 line-clamp-1 hover:text-blue-600 transition">
+                            <a href="product-details.html">MGI IONSPEC Hospital Grade M40</a>
+                        </h3>
+                        <a href="product-details.html" class="mt-3 inline-block w-full py-1.5 px-3 bg-gray-50 hover:bg-blue-50 text-blue-600 font-medium text-xs rounded border border-gray-200 transition">
+                            <i class="fas fa-info-circle mr-1"></i> <span data-i18n="btn_view_detail">Lihat Detail</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="flex-none w-52 md:w-60 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition duration-200 overflow-hidden group">
+                    <a href="product-details.html" class="block relative bg-gray-100 overflow-hidden">
+                        <span class="absolute top-2.5 left-2.5 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Best Seller</span>
+                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="IONSPEC Optical 50" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                    <div class="p-3.5 text-center">
+                        <span class="text-[11px] text-gray-400 uppercase tracking-wider block mb-1">Optical Frame</span>
+                        <h3 class="font-semibold text-sm text-gray-800 line-clamp-1 hover:text-blue-600 transition">
+                            <a href="product-details.html">MGI IONSPEC Optical Frame 50</a>
+                        </h3>
+                        <a href="product-details.html" class="mt-3 inline-block w-full py-1.5 px-3 bg-gray-50 hover:bg-blue-50 text-blue-600 font-medium text-xs rounded border border-gray-200 transition">
+                            <i class="fas fa-info-circle mr-1"></i> <span data-i18n="btn_view_detail">Lihat Detail</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="flex-none w-52 md:w-60 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition duration-200 overflow-hidden group">
+                    <a href="product-details.html" class="block relative bg-gray-100 overflow-hidden">
+                        <span class="absolute top-2.5 left-2.5 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Kids Care</span>
+                        <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="IONSPEC Kids Series" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                    <div class="p-3.5 text-center">
+                        <span class="text-[11px] text-gray-400 uppercase tracking-wider block mb-1">Children & Teens</span>
+                        <h3 class="font-semibold text-sm text-gray-800 line-clamp-1 hover:text-blue-600 transition">
+                            <a href="product-details.html">MGI IONSPEC Kids Junior K5</a>
+                        </h3>
+                        <a href="product-details.html" class="mt-3 inline-block w-full py-1.5 px-3 bg-gray-50 hover:bg-blue-50 text-blue-600 font-medium text-xs rounded border border-gray-200 transition">
+                            <i class="fas fa-info-circle mr-1"></i> <span data-i18n="btn_view_detail">Lihat Detail</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="flex-none w-52 md:w-60 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition duration-200 overflow-hidden group">
+                    <a href="product-details.html" class="block relative bg-gray-100 overflow-hidden">
+                        <span class="absolute top-2.5 left-2.5 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded">Titanium</span>
+                        <img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="IONSPEC Pure Titanium" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                    <div class="p-3.5 text-center">
+                        <span class="text-[11px] text-gray-400 uppercase tracking-wider block mb-1">Premium Series</span>
+                        <h3 class="font-semibold text-sm text-gray-800 line-clamp-1 hover:text-blue-600 transition">
+                            <a href="product-details.html">MGI IONSPEC Pure Titanium T30</a>
+                        </h3>
+                        <a href="product-details.html" class="mt-3 inline-block w-full py-1.5 px-3 bg-gray-50 hover:bg-blue-50 text-blue-600 font-medium text-xs rounded border border-gray-200 transition">
+                            <i class="fas fa-info-circle mr-1"></i> <span data-i18n="btn_view_detail">Lihat Detail</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="flex-none w-52 md:w-60 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition duration-200 overflow-hidden group">
+                    <a href="product-details.html" class="block relative bg-gray-100 overflow-hidden">
+                        <span class="absolute top-2.5 left-2.5 bg-slate-800 text-white text-[10px] font-bold px-2 py-0.5 rounded">Sunglass</span>
+                        <img src="https://images.unsplash.com/photo-1577803645773-f96470509666?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="IONSPEC Outdoor Sunglass" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                    <div class="p-3.5 text-center">
+                        <span class="text-[11px] text-gray-400 uppercase tracking-wider block mb-1">Outdoor & UV</span>
+                        <h3 class="font-semibold text-sm text-gray-800 line-clamp-1 hover:text-blue-600 transition">
+                            <a href="product-details.html">MGI IONSPEC Polarized Sunglass</a>
+                        </h3>
+                        <a href="product-details.html" class="mt-3 inline-block w-full py-1.5 px-3 bg-gray-50 hover:bg-blue-50 text-blue-600 font-medium text-xs rounded border border-gray-200 transition">
+                            <i class="fas fa-info-circle mr-1"></i> <span data-i18n="btn_view_detail">Lihat Detail</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="flex-none w-52 md:w-60 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition duration-200 overflow-hidden group">
+                    <a href="product-details.html" class="block relative bg-gray-100 overflow-hidden">
+                        <span class="absolute top-2.5 left-2.5 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Glaucoma Spec</span>
+                        <img src="https://images.unsplash.com/photo-1582142839970-2b93cbacbe6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="IONSPEC Glaucoma Care" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                    <div class="p-3.5 text-center">
+                        <span class="text-[11px] text-gray-400 uppercase tracking-wider block mb-1">Medical Therapy</span>
+                        <h3 class="font-semibold text-sm text-gray-800 line-clamp-1 hover:text-blue-600 transition">
+                            <a href="product-details.html">MGI IONSPEC Glaucoma Care X1</a>
+                        </h3>
+                        <a href="product-details.html" class="mt-3 inline-block w-full py-1.5 px-3 bg-gray-50 hover:bg-blue-50 text-blue-600 font-medium text-xs rounded border border-gray-200 transition">
+                            <i class="fas fa-info-circle mr-1"></i> <span data-i18n="btn_view_detail">Lihat Detail</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Footer with Strict Client Required Copyright -->
+    <footer class="bg-gray-900 text-gray-300 pt-14 pb-8 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+                <!-- Col 1: About Brand -->
+                <div class="space-y-4">
+                    <img src="assets/images/logo.png" alt="MGISpec Logo" class="h-10 w-auto bg-white/90 p-1.5 rounded object-contain">
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="footer_about">
+                        MGISpec merupakan produk kacamata medis mutakhir berteknologi nanopartikel ion negatif dan oksigen untuk menjaga kesehatan mata dari radiasi gadget dan kelelahan visual.
+                    </p>
+                    <div class="flex space-x-3 text-sm">
+                        <a href="https://facebook.com" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-pink-600 flex items-center justify-center transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-green-600 flex items-center justify-center transition"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div>
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4" data-i18n="footer_links">Tautan Halaman</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="product-details.html" class="hover:text-white transition" data-i18n="nav_catalog">Katalog Produk</a></li>
+                        <li><a href="#invention" class="hover:text-white transition">The IONSPEC Invention</a></li>
+                        <li><a href="#about" class="hover:text-white transition" data-i18n="nav_about">Tentang Kami</a></li>
+                        <li><a href="#certifications" class="hover:text-white transition" data-i18n="nav_cert">Sertifikasi & Lisensi</a></li>
+                        <li><a href="#faq" class="hover:text-white transition">FAQ & Bantuan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Medical Certifications -->
+                <div>
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4" data-i18n="footer_cert">Sertifikasi Resmi</h4>
+                    <p class="text-xs text-gray-400 mb-2">
+                        • <strong>FDA Registered</strong> (U.S. Food and Drug Administration)
+                    </p>
+                    <p class="text-xs text-gray-400 mb-2">
+                        • <strong>Medical Device Authority (MDA)</strong> Malaysia: License No: MDA-3521-WDP122
+                    </p>
+                    <p class="text-xs text-gray-400">
+                        • <strong>Glaucoma Charity Support</strong> International Community
+                    </p>
+                </div>
+
+                <!-- Col 4: Contact -->
+                <div>
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4" data-i18n="footer_contact">Hubungi Kami</h4>
+                    <p class="text-xs text-gray-400 mb-2">
+                        <i class="fas fa-map-marker-alt text-amber-500 mr-2"></i> Jakarta & Manila Regional Representative
+                    </p>
+                    <p class="text-xs text-gray-400 mb-2">
+                        <i class="fas fa-phone-alt text-amber-500 mr-2"></i> +62 812-3456-7890 (Customer Care)
+                    </p>
+                    <p class="text-xs text-gray-400 mb-2">
+                        <i class="fas fa-envelope text-amber-500 mr-2"></i> info@mgispec.com
+                    </p>
+                </div>
+            </div>
+
+            <!-- Client Exact Copyright Requirement -->
+            <div class="pt-6 border-t border-gray-800 text-center text-xs text-gray-400 font-normal">
+                &copy; 2026 - MGISPEC @ MGIClub Global. All Rights Reserved
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts: Slider, Language Switcher, Drawer Menu -->
+    <script>
+        // Language Dictionary
+        const i18n = {
+            id: {
+                login: "Login",
+                nav_home: "Home",
+                nav_catalog: "Katalog Produk",
+                nav_invention: "The IONSPEC Invention",
+                nav_about: "Tentang Kami",
+                nav_cert: "Sertifikasi",
+                nav_contact: "Kontak",
+                hero_sub_1: "Perlindungan mata revolusioner dengan nano teknologi ion & oksigen alami untuk kesehatan penglihatan Anda.",
+                hero_sub_2: "Frame ergonomis berteknologi batu germanium & inframerah jauh, meredakan ketegangan mata & migrain.",
+                hero_btn_explore: "Jelajahi Katalog",
+                hero_btn_detail: "Lihat Detail Seri",
+                benefit_tag: "Program & Keunggulan Khusus",
+                benefit_title: "Manfaat Eksklusif MGISPEC",
+                benefit_sub: "Setiap frame IONSPEC dilengkapi sertifikasi medis internasional dan garansi keaslian resmi.",
+                benefit_card1_desc: "Teknologi pelepasan ion negatif & oksigen untuk mata lelah.",
+                benefit_card2_desc: "100% perlindungan dari sinar UV400 & radiasi blue light layar gadget.",
+                benefit_card3_desc: "Gratis hardcase premium & microfiber cloth di setiap produk.",
+                benefit_card4_desc: "Terdaftar di Medical Device Authority MDA-3521-WDP122.",
+                catalog_tag: "Semua Koleksi Produk",
+                catalog_title: "Katalog Frame & Seri IONSPEC",
+                btn_view_detail: "Lihat Detail",
+                footer_about: "MGISpec merupakan produk kacamata medis mutakhir berteknologi nanopartikel ion negatif dan oksigen untuk menjaga kesehatan mata dari radiasi gadget dan kelelahan visual.",
+                footer_links: "Tautan Halaman",
+                footer_cert: "Sertifikasi Resmi",
+                footer_contact: "Hubungi Kami"
+            },
+            ph: {
+                login: "Mag-login",
+                nav_home: "Home",
+                nav_catalog: "Katalogo ng Produkto",
+                nav_invention: "The IONSPEC Invention",
+                nav_about: "Tungkol sa Amin",
+                nav_cert: "Mga Sertipikasyon",
+                nav_contact: "Makipag-ugnayan",
+                hero_sub_1: "Rebolusyonaryong proteksyon sa mata na may natural na ion at oxygen nano-technology para sa iyong paningin.",
+                hero_sub_2: "Ergonomic frame na may germanium stone at far-infrared tech para mabawasan ang eye strain at migraine.",
+                hero_btn_explore: "Tingnan ang Katalogo",
+                hero_btn_detail: "Mga Detalye ng Serye",
+                benefit_tag: "Mga Espesyal na Benepisyo",
+                benefit_title: "Eksklusibong Benepisyo ng MGISPEC",
+                benefit_sub: "Bawat IONSPEC frame ay may international medical certification at opisyal na garantiya.",
+                benefit_card1_desc: "Teknolohiya ng negatibong ion at oxygen para sa pagod na mga mata.",
+                benefit_card2_desc: "100% proteksyon laban sa UV400 at nakakapinsalang blue light mula sa gadgets.",
+                benefit_card3_desc: "Libreng premium hardcase at microfiber cloth sa bawat frame.",
+                benefit_card4_desc: "Rehistrado sa Medical Device Authority MDA-3521-WDP122.",
+                catalog_tag: "Lahat ng Koleksyon",
+                catalog_title: "Katalogo ng Frame at IONSPEC Series",
+                btn_view_detail: "Tingnan ang Detalye",
+                footer_about: "Ang MGISpec ay makabagong medikal na salamin na may nanoparticle technology upang maprotektahan ang mga mata sa radiation at visual fatigue.",
+                footer_links: "Mga Pahina",
+                footer_cert: "Opisyal na Sertipikasyon",
+                footer_contact: "Kontakin Kami"
+            }
+        };
+
+        // Switch Language
+        function switchLanguage(lang, flag, label) {
+            document.getElementById('currentFlag').innerText = flag;
+            document.getElementById('currentLang').innerText = label;
+            document.getElementById('langMenu').classList.add('hidden');
+            
+            // Apply text translations
+            const dict = i18n[lang] || i18n.id;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerText = dict[key];
+                }
+            });
+        }
+
+        // Language Dropdown Toggle
+        document.getElementById('langBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('langMenu').classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('langMenu').classList.add('hidden');
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Hero Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-item');
+        const dots = document.querySelectorAll('.slider-dot');
+
+        function updateSlideUI() {
+            slides.forEach((s, idx) => {
+                if (idx === currentSlide) {
+                    s.classList.remove('opacity-0', 'pointer-events-none');
+                    s.classList.add('opacity-100');
+                } else {
+                    s.classList.remove('opacity-100');
+                    s.classList.add('opacity-0', 'pointer-events-none');
+                }
+            });
+            dots.forEach((d, idx) => {
+                if (idx === currentSlide) {
+                    d.classList.remove('bg-white/50');
+                    d.classList.add('bg-white');
+                } else {
+                    d.classList.remove('bg-white');
+                    d.classList.add('bg-white/50');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlideUI();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlideUI();
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlideUI();
+        }
+
+        document.getElementById('sliderNext').addEventListener('click', nextSlide);
+        document.getElementById('sliderPrev').addEventListener('click', prevSlide);
+
+        // Auto play slider every 6 seconds
+        setInterval(nextSlide, 6000);
+
+        // Thumbnail Scroll Controls
+        const thumbTrack = document.getElementById('thumbTrack');
+        document.getElementById('thumbPrev').addEventListener('click', () => {
+            thumbTrack.scrollBy({ left: -260, behavior: 'smooth' });
+        });
+        document.getElementById('thumbNext').addEventListener('click', () => {
+            thumbTrack.scrollBy({ left: 260, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGISpec - Detail Produk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <!-- Top Announcement Bar (Dual Language & Contact) -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <span><i class="fas fa-shield-alt text-amber-400 mr-1"></i> Official Bio-Tech Medical Device Glasses</span>
+                <span class="hidden sm:inline text-slate-500">|</span>
+                <span class="hidden sm:inline"><i class="fas fa-certificate text-blue-400 mr-1"></i> FDA Registered & MDA Approved</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Dual Language Selector (ID & PH) -->
+                <div class="relative inline-block text-left" id="langDropdownWrapper">
+                    <button id="langBtn" class="flex items-center space-x-1.5 text-white bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded border border-slate-700 text-xs font-medium focus:outline-none transition">
+                        <span id="currentFlag" class="text-sm">🇮🇩</span>
+                        <span id="currentLang">ID (Bahasa)</span>
+                        <i class="fas fa-chevron-down text-[10px] ml-1 text-slate-400"></i>
+                    </button>
+                    <div id="langMenu" class="hidden absolute right-0 mt-1 w-36 bg-white rounded-md shadow-lg py-1 z-50 text-gray-700 border text-xs">
+                        <a href="javascript:void(0)" onclick="switchLanguage('id', '🇮🇩', 'ID (Bahasa)')" class="flex items-center px-3 py-2 hover:bg-blue-50 font-medium">
+                            <span class="text-sm mr-2">🇮🇩</span> Indonesia (ID)
+                        </a>
+                        <a href="javascript:void(0)" onclick="switchLanguage('ph', '🇵🇭', 'PH (Philippines)')" class="flex items-center px-3 py-2 hover:bg-blue-50 font-medium">
+                            <span class="text-sm mr-2">🇵🇭</span> Philippines (PH)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Login Button (No Shopping Cart) -->
+                <a href="#login" class="flex items-center text-white hover:text-amber-400 font-medium transition space-x-1 text-xs">
+                    <i class="fas fa-user-circle text-sm"></i>
+                    <span>Login</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white border-b shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <a href="index.html" class="flex items-center space-x-3">
+                <img src="assets/images/logo.png" alt="MGISpec Logo" class="h-10 md:h-12 w-auto object-contain">
+            </a>
+
+            <!-- Desktop Nav Menu -->
+            <nav class="hidden lg:flex space-x-7 text-sm font-medium text-gray-700">
+                <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+                <a href="product-details.html" class="text-blue-600 font-semibold">Katalog Produk</a>
+                <a href="index.html#invention" class="hover:text-blue-600 transition">The IONSPEC Invention</a>
+                <a href="index.html#about" class="hover:text-blue-600 transition">Tentang Kami</a>
+                <a href="index.html#certifications" class="hover:text-blue-600 transition">Sertifikasi</a>
+                <a href="index.html#faq" class="hover:text-blue-600 transition">FAQ</a>
+                <a href="index.html#contact" class="hover:text-blue-600 transition">Kontak</a>
+            </nav>
+
+            <!-- Header Right Icons -->
+            <div class="flex items-center space-x-3">
+                <!-- Search Button -->
+                <button class="text-gray-600 hover:text-blue-600 p-2 text-base transition">
+                    <i class="fas fa-search"></i>
+                </button>
+                <!-- Facebook Community -->
+                <a href="https://facebook.com" target="_blank" class="text-gray-600 hover:text-blue-600 p-2 text-base transition hidden sm:inline-block">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="lg:hidden text-gray-700 hover:text-blue-600 p-2 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t px-4 py-4 space-y-3 shadow-md">
+            <a href="index.html" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">Home</a>
+            <a href="product-details.html" class="block text-blue-600 font-semibold py-1.5">Katalog Produk</a>
+            <a href="index.html#invention" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">The IONSPEC Invention</a>
+            <a href="index.html#about" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">Tentang Kami</a>
+            <a href="index.html#certifications" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">Sertifikasi</a>
+            <a href="index.html#faq" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">FAQ</a>
+            <a href="index.html#contact" class="block text-gray-700 hover:text-blue-600 py-1.5 font-medium">Kontak</a>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 py-4 border-b">
+        <div class="container mx-auto px-4 text-sm">
+            <a href="index.html" class="text-gray-500 hover:text-blue-600 transition">Home</a>
+            <span class="mx-2 text-gray-400">/</span>
+            <a href="#" class="text-gray-500 hover:text-blue-600 transition">Kacamata Pria</a>
+            <span class="mx-2 text-gray-400">/</span>
+            <span class="text-gray-800 font-medium">Spectra Blue-Light Protect</span>
+        </div>
+    </div>
+
+    <!-- Product Details Section -->
+    <section class="py-16 container mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-12 lg:gap-20">
+            <!-- Product Images (Thumbnails Lengkap) -->
+            <div class="md:w-1/2">
+                <div class="mb-4 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gambar Utama Kacamata" class="w-full h-[500px] object-cover">
+                </div>
+                <!-- 4 Thumbnails Sesuai Request -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="rounded-lg overflow-hidden cursor-pointer border-2 border-blue-600" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Tampak Depan" class="w-full h-24 object-cover">
+                    </div>
+                    <div class="rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-400 transition" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1512099053734-e6767b535838?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Tampak Samping" class="w-full h-24 object-cover">
+                    </div>
+                    <div class="rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-400 transition" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Detail Frame" class="w-full h-24 object-cover">
+                    </div>
+                    <div class="rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-400 transition" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Model Memakai" class="w-full h-24 object-cover object-top">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="md:w-1/2">
+                <span class="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-2 block">Kacamata Anti Radiasi</span>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">Spectra Blue-Light Protect</h1>
+                
+                <div class="flex items-center mb-6">
+                    <div class="text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <a href="#reviews" class="text-gray-500 text-sm ml-2 hover:text-blue-600 transition">(24 Ulasan Pelanggan)</a>
+                </div>
+                
+                <div class="text-3xl font-bold text-blue-600 mb-6">Rp 450.000</div>
+                
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    Tingkatkan produktivitas Anda tanpa khawatir mata lelah. Spectra Blue-Light Protect dilengkapi dengan lensa khusus yang dirancang untuk memblokir radiasi sinar biru dari layar digital. Frame berbahan titanium memastikan kacamata ini sangat ringan dan tahan lama.
+                </p>
+
+                <!-- Varian Warna -->
+                <div class="mb-6">
+                    <h4 class="font-medium mb-3 text-gray-800">Warna Frame</h4>
+                    <div class="flex space-x-3">
+                        <button class="w-8 h-8 rounded-full bg-black border-2 border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" title="Black Matte"></button>
+                        <button class="w-8 h-8 rounded-full bg-gray-400 border-2 border-gray-300 focus:outline-none hover:border-gray-500" title="Silver Titanium"></button>
+                        <button class="w-8 h-8 rounded-full bg-yellow-900 border-2 border-gray-300 focus:outline-none hover:border-gray-500" title="Tortoise Shell"></button>
+                    </div>
+                </div>
+
+                <div class="mb-8 p-4 bg-blue-50 rounded-lg">
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li><i class="fas fa-shield-alt text-blue-500 mr-2"></i> Garansi Frame 1 Tahun</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Hardcase & Kain Microfiber Termasuk</li>
+                        <li><i class="fas fa-exchange-alt text-blue-500 mr-2"></i> Bisa ganti lensa minus/silinder</li>
+                    </ul>
+                </div>
+
+                <div class="mb-8">
+                    <h4 class="font-medium mb-3 text-gray-800">Jumlah</h4>
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center border border-gray-300 rounded-full bg-white">
+                            <button class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-blue-600 transition" onclick="decreaseQty()">-</button>
+                            <input type="number" id="qty" value="1" class="w-12 text-center focus:outline-none font-medium" min="1">
+                            <button class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-blue-600 transition" onclick="increaseQty()">+</button>
+                        </div>
+                        <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">Stok Tersedia</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                    <a href="https://wa.me/6281234567890?text=Halo%20MGISpec,%20saya%20tertarik%20dengan%20produk%20Spectra%20Blue-Light%20Protect" target="_blank" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 rounded-full font-medium transition flex items-center justify-center space-x-2 shadow-lg shadow-green-200">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                        <span>Konsultasi & Pemesanan via WhatsApp</span>
+                    </a>
+                    <button class="px-6 py-4 border border-gray-300 rounded-full hover:bg-gray-50 transition text-gray-600 flex items-center justify-center" title="Simpan ke Favorit">
+                        <i class="far fa-heart text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="border-t pt-6 text-sm text-gray-600 space-y-3">
+                    <p><span class="font-medium text-gray-900 w-24 inline-block">SKU:</span> MGI-SPC-01</p>
+                    <p><span class="font-medium text-gray-900 w-24 inline-block">Kategori:</span> <a href="#" class="hover:text-blue-600 transition">Kacamata Pria</a>, <a href="#" class="hover:text-blue-600 transition">Anti Radiasi</a></p>
+                    <p><span class="font-medium text-gray-900 w-24 inline-block">Bentuk:</span> <a href="#" class="hover:text-blue-600 transition">Square</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Description Tabs -->
+    <section class="py-16 bg-gray-50 border-t" id="reviews">
+        <div class="container mx-auto px-4">
+            <!-- Tab Headers -->
+            <div class="flex flex-wrap border-b border-gray-200 mb-8 justify-center space-x-2 md:space-x-8">
+                <button onclick="switchTab('desc')" id="tab-desc" class="tab-btn pb-4 px-2 border-b-2 border-blue-600 font-medium text-blue-600 text-lg transition">Deskripsi</button>
+                <button onclick="switchTab('tech')" id="tab-tech" class="tab-btn pb-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-800 font-medium text-lg transition">Spesifikasi & Teknologi Lensa</button>
+                <button onclick="switchTab('rev')" id="tab-rev" class="tab-btn pb-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-800 font-medium text-lg transition">Ulasan (24)</button>
+            </div>
+            
+            <!-- Tab Content: Deskripsi -->
+            <div id="content-desc" class="tab-content active max-w-4xl mx-auto prose prose-blue">
+                <h3 class="text-xl font-bold mb-4 text-gray-900">Lindungi Mata dari Era Digital</h3>
+                <p class="mb-4 text-gray-600 leading-relaxed">Menghabiskan waktu berjam-jam di depan layar komputer atau smartphone dapat menyebabkan mata lelah, kemerahan, hingga sakit kepala. Spectra Blue-Light Protect hadir sebagai solusi bagi Anda para profesional, gamer, maupun pelajar.</p>
+                
+                <h4 class="text-lg font-bold mt-8 mb-4 text-gray-900">Keunggulan Kacamata Ini:</h4>
+                <ul class="space-y-2 text-gray-600">
+                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> <span>Mencegah ketegangan mata (Eye Strain) akibat paparan sinar biru.</span></li>
+                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> <span>Meningkatkan kualitas tidur dengan menghalangi blue light sebelum tidur.</span></li>
+                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> <span>Desain frame ergonomis yang tidak menjepit telinga atau hidung.</span></li>
+                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> <span>Tampilan profesional dan stylish untuk penggunaan sehari-hari.</span></li>
+                </ul>
+            </div>
+
+            <!-- Tab Content: Spesifikasi & Teknologi -->
+            <div id="content-tech" class="tab-content max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Dimensi & Spesifikasi</h3>
+                        <table class="w-full text-left border-collapse text-sm text-gray-600 mb-6">
+                            <tbody>
+                                <tr class="border-b border-gray-200">
+                                    <th class="py-3 font-medium text-gray-900">Lebar Lensa</th>
+                                    <td class="py-3">52 mm</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th class="py-3 font-medium text-gray-900">Jarak Hidung (Bridge)</th>
+                                    <td class="py-3">18 mm</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th class="py-3 font-medium text-gray-900">Panjang Tangkai</th>
+                                    <td class="py-3">140 mm</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th class="py-3 font-medium text-gray-900">Material Frame</th>
+                                    <td class="py-3">Aero-Titanium (Ultra Ringan)</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th class="py-3 font-medium text-gray-900">Berat</th>
+                                    <td class="py-3">14 Gram (tanpa lensa tebal)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Teknologi Lensa (Blue Control)</h3>
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                <h4 class="font-bold text-blue-600 mb-2">High-Energy Visible (HEV) Blocker</h4>
+                                <p class="text-sm text-gray-600">Menyaring hingga 99% sinar biru berbahaya (panjang gelombang 415-455nm) yang dipancarkan oleh layar LED.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                <h4 class="font-bold text-blue-600 mb-2">Anti-Reflective (AR) Coating</h4>
+                                <p class="text-sm text-gray-600">Mengurangi pantulan cahaya di permukaan lensa sehingga pandangan lebih jernih saat menyetir di malam hari atau di depan komputer.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                <h4 class="font-bold text-blue-600 mb-2">Scratch Resistant Layer</h4>
+                                <p class="text-sm text-gray-600">Lapisan pelindung ekstra yang meminimalisir goresan halus akibat debu atau kain pembersih.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Ulasan -->
+            <div id="content-rev" class="tab-content max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-12">
+                    <!-- Rating Summary -->
+                    <div class="md:w-1/3">
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100">
+                            <h3 class="text-5xl font-bold text-gray-900 mb-2">4.9</h3>
+                            <div class="text-yellow-400 text-xl mb-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-500 text-sm">Berdasarkan 24 Ulasan</p>
+                            
+                            <div class="mt-6 space-y-2">
+                                <div class="flex items-center text-sm">
+                                    <span class="w-12 text-gray-600">5 Bintang</span>
+                                    <div class="flex-1 mx-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                        <div class="bg-yellow-400 h-full w-11/12"></div>
+                                    </div>
+                                    <span class="w-8 text-right text-gray-500">22</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <span class="w-12 text-gray-600">4 Bintang</span>
+                                    <div class="flex-1 mx-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                        <div class="bg-yellow-400 h-full w-1/12"></div>
+                                    </div>
+                                    <span class="w-8 text-right text-gray-500">2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review List -->
+                    <div class="md:w-2/3 space-y-6">
+                        <!-- Review Item 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Budi Santoso</h4>
+                                    <p class="text-xs text-gray-500">10 Oktober 2026</p>
+                                </div>
+                                <div class="text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm leading-relaxed">Kacamatanya beneran enteng banget karena bahannya titanium. Dipakai kerja depan laptop 8 jam sehari mata udah nggak perih lagi. Desainnya juga keren buat dipakai meeting.</p>
+                        </div>
+                        
+                        <!-- Review Item 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Arif Rahman</h4>
+                                    <p class="text-xs text-gray-500">2 Oktober 2026</p>
+                                </div>
+                                <div class="text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm leading-relaxed">Pelayanan mantap, packing aman pakai bubble wrap tebal. Kualitas lensa anti radiasinya kerasa bedanya, mantul cahaya birunya jelas kelihatan di lensa. Recommended seller!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 mt-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-white text-2xl font-bold mb-6">MGISpec<span class="text-blue-500">.</span></h4>
+                <p class="text-sm mb-6 leading-relaxed">Menyediakan kacamata berkualitas tinggi dengan paduan material premium dan lensa berteknologi mutakhir.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 text-lg">Informasi</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-blue-500 transition">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition">Teknologi Lensa</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition">Kebijakan Privasi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 text-lg">Layanan</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-blue-500 transition">Panduan Ukuran</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition">FAQ</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition">Garansi Produk</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 text-lg">Newsletter</h4>
+                <p class="text-sm mb-4">Dapatkan info produk terbaru dan promo kacamata.</p>
+                <form class="flex mt-4">
+                    <input type="email" placeholder="Email Anda" class="px-4 py-3 w-full text-gray-900 rounded-l focus:outline-none">
+                    <button type="submit" class="bg-blue-600 text-white px-6 rounded-r hover:bg-blue-700 transition"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-400">
+            <p>&copy; 2026 - MGISPEC @ MGIClub Global. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if(mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if(mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+
+        // Image Gallery Script
+        function changeImage(element) {
+            const mainImage = document.getElementById('mainImage');
+            const newSrc = element.querySelector('img').src;
+            
+            // Remove border from all thumbs
+            const thumbs = element.parentElement.querySelectorAll('div');
+            thumbs.forEach(t => {
+                t.classList.remove('border-blue-600');
+                t.classList.add('border-transparent');
+            });
+            
+            // Add border to active thumb
+            element.classList.remove('border-transparent');
+            element.classList.add('border-blue-600');
+            
+            // Change main image
+            mainImage.style.opacity = '0.5';
+            setTimeout(() => {
+                mainImage.src = newSrc;
+                mainImage.style.opacity = '1';
+                mainImage.style.transition = 'opacity 0.3s ease-in-out';
+            }, 150);
+        }
+
+        // Quantity Script
+        function increaseQty() {
+            const input = document.getElementById('qty');
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decreaseQty() {
+            const input = document.getElementById('qty');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+
+        // Tabs Script
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Reset all buttons
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('border-blue-600', 'text-blue-600');
+                el.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected content
+            document.getElementById('content-' + tabId).classList.add('active');
+            
+            // Activate selected button
+            const btn = document.getElementById('tab-' + tabId);
+            btn.classList.remove('border-transparent', 'text-gray-500');
+            btn.classList.add('border-blue-600', 'text-blue-600');
+        }
+    </script>
+</body>
+</html>
