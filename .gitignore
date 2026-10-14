@@ -18,7 +18,11 @@ __pycache__/
 ehthumbs.db
 Thumbs.db
 
-# Proposal & Contract Documents
+# Proposal & Contract Documents (Private / Priced)
 *Penawaran*
 *penawaran*
 stuff/proposals/
+
+# Whitelist Feature Reference Proposal (Unpriced)
+!*Rev4.1*
+
