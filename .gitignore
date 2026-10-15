@@ -2,6 +2,9 @@
 venv/
 .env
 .env.*
+.ftp_credentials.json
+*.secret
+
 
 # Python Cache
 __pycache__/
