@@ -62,9 +62,9 @@
                 </div>
             </div>
 
-            {{-- Infographic Modal --}}
-            <div id="infographic-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm transition-opacity" onclick="if(event.target===this) this.classList.add('hidden')">
-                <div class="relative max-h-[92vh] max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            {{-- Infographic Modal (z-index, backdrop and max-height are inline because the deployed CSS build lacks those arbitrary classes; without them the Swiper cards cover the modal on mobile) --}}
+            <div id="infographic-modal" class="fixed inset-0 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity" style="z-index: 100; background-color: rgba(0, 0, 0, .75)" onclick="if(event.target===this) this.classList.add('hidden')">
+                <div class="relative max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl" style="max-height: 92vh">
                     <div class="flex items-center justify-between border-b px-6 py-4">
                         <div class="flex items-center gap-2.5">
                             <span class="grid h-7 w-7 place-items-center rounded-full bg-brand-50 text-brand-600">
@@ -76,7 +76,7 @@
                             <i class="fa-solid fa-xmark text-lg"></i>
                         </button>
                     </div>
-                    <div class="overflow-y-auto p-4 sm:p-6 text-center max-h-[calc(92vh-80px)]">
+                    <div class="overflow-y-auto p-4 sm:p-6 text-center" style="max-height: calc(92vh - 80px)">
                         @php $infoImg = app()->getLocale() === 'en' ? 'images/infografis-material-en.png' : 'images/infografis-material-id.png'; @endphp
                         <img src="{{ asset($infoImg) }}" alt="{{ __('Diagram Material Canggih MGISpec') }}" class="mx-auto h-auto max-w-full rounded-2xl shadow-sm">
                     </div>
