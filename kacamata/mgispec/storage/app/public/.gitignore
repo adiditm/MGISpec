@@ -1,0 +1,10 @@
+*
+!.gitignore
+!images/
+!images/**
+!products/
+!products/**
+!sliders/
+!sliders/**
+!seed/
+!seed/**

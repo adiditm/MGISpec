@@ -72,12 +72,13 @@ def cmd_upload(local_path, remote_path=None, profile=None):
     
     ftp, creds = get_connection(profile)
     remote_dir = os.path.dirname(remote_path)
+    file_name = os.path.basename(remote_path)
     if remote_dir:
         ensure_remote_dir(ftp, remote_dir)
         
     print(f"[{creds.get('_profile_name')}] Uploading '{local_path}' -> '{remote_path}'...")
     with open(local_p, "rb") as f:
-        ftp.storbinary(f"STOR {remote_path}", f)
+        ftp.storbinary(f"STOR {file_name}", f)
     print("Upload completed successfully.")
     ftp.quit()
     return True
@@ -100,6 +101,17 @@ def cmd_cat(remote_path, profile=None):
     ftp.retrlines(f"RETR {remote_path}", lines.append)
     ftp.quit()
     print("\n".join(lines))
+
+def cmd_rm(remote_path, profile=None):
+    ftp, creds = get_connection(profile)
+    print(f"[{creds.get('_profile_name')}] Deleting '{remote_path}'...")
+    try:
+        ftp.delete(remote_path)
+        print("File deleted successfully.")
+    except Exception as e:
+        print(f"Failed to delete: {e}")
+    ftp.quit()
+
 
 def ensure_remote_dir(ftp, remote_dir):
     parts = [p for p in remote_dir.strip("/").split("/") if p]
@@ -190,6 +202,11 @@ def main():
             print("Usage: ftp_tool.py cat <remote_file>")
             sys.exit(1)
         cmd_cat(args[1], profile)
+    elif cmd == "rm":
+        if len(args) < 2:
+            print("Usage: ftp_tool.py rm <remote_file>")
+            sys.exit(1)
+        cmd_rm(args[1], profile)
     else:
         print(f"Unknown command: {cmd}")
 

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mgispec",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "cd mgispec\\public && php -S 127.0.0.1:8010 ..\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php"],
+      "port": 8010
+    }
+  ]
+}

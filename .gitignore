@@ -29,3 +29,13 @@ stuff/proposals/
 # Whitelist Feature Reference Proposal (Unpriced)
 !*Rev4.1*
 
+# Archives (extracted source folders and assets are tracked instead)
+*.rar
+*.zip
+*.tar.gz
+*.7z
+
+# Laravel dependencies & logs in subdirectories
+**/vendor/
+**/node_modules/
+**/*.log
