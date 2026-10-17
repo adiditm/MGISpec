@@ -51,12 +51,11 @@ class ContactController extends Controller
                 'phone' => '+60 12-345-6789',
                 'whatsapp' => '60123456789',
                 'email' => 'malaysia@mgispec.com',
-                'regulatory' => 'Medical Device Authority (MDA) Malaysia Reg. No: MDA-3521-WDP122',
                 'hours' => [
                     'id' => 'Senin – Jumat: 09:00 – 17:30 MYT',
                     'en' => 'Monday – Friday: 09:00 – 17:30 MYT',
                 ],
-                'badge' => ['id' => 'MDA Registered', 'en' => 'MDA Registered'],
+                'badge' => ['id' => 'Regional Office', 'en' => 'Regional Office'],
             ],
             [
                 'country' => ['id' => 'MGIClub Global', 'en' => 'MGIClub Global'],

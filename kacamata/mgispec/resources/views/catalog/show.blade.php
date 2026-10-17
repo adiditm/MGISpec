@@ -96,7 +96,6 @@
 
                     <div class="mt-8 grid grid-cols-2 gap-3 text-xs text-gray-600">
                         <div class="flex items-center gap-3 rounded-2xl bg-gray-50 p-4"><i class="fa-solid fa-shield-halved text-xl text-brand-600"></i><span><strong class="block text-gray-900">FDA Registered</strong>U.S. FDA</span></div>
-                        <div class="flex items-center gap-3 rounded-2xl bg-gray-50 p-4"><i class="fa-solid fa-certificate text-xl text-sun-500"></i><span><strong class="block text-gray-900">MDA Malaysia</strong>MDA-3521-WDP122</span></div>
                     </div>
 
                     {{-- Tabs --}}

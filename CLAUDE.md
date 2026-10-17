@@ -34,7 +34,7 @@ Dokumen ini berisi rangkuman arsitektur, histori pekerjaan, struktur file, dan p
 2. **Halaman Kontak Internasional** (`/id/kontak` & `/en/kontak`):
    - Controller: `app/Http/Controllers/ContactController.php`
    - View: `resources/views/contact.blade.php`
-   - Berisi kartu kantor cabang: Indonesia (Jakarta HQ), Filipina (Ortigas Manila), Malaysia (Kuala Lumpur - MDA Certified), dan Global Member Portal.
+   - Berisi kartu kantor cabang: Indonesia (Jakarta HQ), Filipina (Ortigas Manila), Malaysia (Kuala Lumpur), dan Global Member Portal.
 
 ### C. Sistem Slider Hero Kontekstual & Multibahasa
 1. **Skema Database & Model**:

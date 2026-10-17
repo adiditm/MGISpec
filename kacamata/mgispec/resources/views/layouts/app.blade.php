@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ isset($title) ? $title.' · ' : '' }}MGISpec — Bio-Tech Oxygen Glasses</title>
-    <meta name="description" content="{{ $description ?? __('Kacamata medis berteknologi ion & oksigen. Terdaftar FDA & MDA Malaysia.') }}">
+    <meta name="description" content="{{ $description ?? __('Kacamata medis berteknologi ion & oksigen. Terdaftar FDA.') }}">
     <link rel="icon" href="{{ asset('images/logo-sm.png') }}">
     @foreach (\App\Support\I18n::enabledLocales() as $code => $meta)
         <link rel="alternate" hreflang="{{ $code === 'cn' ? 'zh-CN' : $code }}" href="{{ \App\Support\I18n::switchUrl($code) }}">

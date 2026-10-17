@@ -41,7 +41,6 @@
                 <h4 class="text-xs font-semibold uppercase tracking-[.2em] text-white">{{ __('Sertifikasi Resmi') }}</h4>
                 <ul class="mt-5 space-y-4 text-sm">
                     <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-400"></i><span><strong class="text-gray-200">FDA Registered</strong><br>U.S. Food and Drug Administration</span></li>
-                    <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-400"></i><span><strong class="text-gray-200">Medical Device Authority Malaysia</strong><br>License No: MDA-3521-WDP122</span></li>
                 </ul>
             </div>
 

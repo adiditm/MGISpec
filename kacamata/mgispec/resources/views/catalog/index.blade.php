@@ -12,7 +12,7 @@
             <h1 class="mt-4 text-4xl font-extrabold tracking-tight lg:text-6xl">
                 {{ $current ? $current->t('name') : __('Katalog Produk') }}
             </h1>
-            <p class="mt-4 max-w-2xl text-white/70 lg:text-lg">{{ __('Koleksi frame & lensa MGISpec — teknologi kesehatan mata bersertifikat FDA dan MDA Malaysia.') }}</p>
+            <p class="mt-4 max-w-2xl text-white/70 lg:text-lg">{{ __('Koleksi frame & lensa MGISpec — teknologi kesehatan mata bersertifikat FDA.') }}</p>
         </div>
     </section>
 

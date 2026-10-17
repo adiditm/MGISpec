@@ -109,10 +109,5 @@
         </div>
     </div>
 
-    {{-- scroll cue --}}
-    <a href="#promo" class="scroll-cue absolute right-6 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-center gap-3 text-[10px] font-semibold uppercase tracking-[.3em] text-white/70 [writing-mode:vertical-rl] hover:text-white xl:flex">
-        Scroll
-        <span class="relative block h-14 w-px overflow-hidden bg-white/25"><span class="absolute inset-x-0 top-0 block h-1/2 bg-white"></span></span>
-    </a>
 </section>
 @endif
