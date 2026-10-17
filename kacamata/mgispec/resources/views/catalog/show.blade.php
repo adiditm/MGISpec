@@ -26,9 +26,9 @@
                 <span>/</span><span class="text-gray-700">{{ $name }}</span>
             </nav>
 
-            <div class="mt-6 grid grid-cols-1 gap-8 lg:mt-8 lg:grid-cols-2 lg:gap-14">
-                {{-- Gallery --}}
-                <div data-gallery class="min-w-0 lg:sticky lg:top-28 lg:self-start">
+            <div class="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-2 lg:gap-14">
+                {{-- Gallery (min-width: 0 stops Swiper slides from stretching the single auto grid column on mobile) --}}
+                <div data-gallery class="lg:sticky lg:top-28 lg:self-start" style="min-width: 0">
                     <div class="swiper gallery-main overflow-hidden rounded-3xl bg-gray-100">
                         <div class="swiper-wrapper">
                             @foreach ($images as $i => $src)
