@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@mgispec.com')],
-            ['name' => 'Admin MGISpec', 'password' => env('ADMIN_PASSWORD', 'mgispec-admin-2026')],
+            ['username' => env('ADMIN_USERNAME', 'admin')],
+            ['name' => 'Admin MGISpec', 'email' => env('ADMIN_EMAIL', 'admin@mgispec.com'), 'password' => env('ADMIN_PASSWORD', 'mgispec-admin-2026')],
         );
 
         $this->copyImages();

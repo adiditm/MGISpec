@@ -73,6 +73,12 @@ Dokumen ini berisi rangkuman arsitektur, histori pekerjaan, struktur file, dan p
    - Seeder: `database/seeders/CatalogProductSeeder.php` membaca JSON metadata `database/seeders/products_catalog_data.json`.
    - Gambar publik tersimpan di `storage/app/public/products/<product-slug>/`.
 
+### F. Login Admin CMS dengan Username
+1. Admin masuk ke `/admin` memakai **username** (bukan email). Email tetap dipakai untuk fitur reset password.
+2. File: `app/Filament/Auth/Login.php`, `app/Filament/Auth/EditProfile.php` (halaman profil `/admin/profile` untuk ganti username/email/password).
+3. Migration `2026_10_16_090000_add_username_to_users_table.php` menambah kolom `users.username` (unik) dan mengisinya dari bagian email sebelum `@`. **Wajib dijalankan di server sebelum file auth di-upload**, kalau tidak login admin error 500.
+4. Reset password memakai notifikasi queued, jadi server shared hosting butuh `QUEUE_CONNECTION=sync` di `.env`.
+
 ---
 
 ## 3. Struktur Direktori Proyek
