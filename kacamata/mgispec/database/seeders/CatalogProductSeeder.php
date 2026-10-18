@@ -12,11 +12,11 @@ class CatalogProductSeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'medical' => Category::firstOrCreate(['slug' => 'medical'], ['name' => ['id' => 'Medical Series', 'en' => 'Medical Series']]),
+            'medical' => Category::firstOrCreate(['slug' => 'medical'], ['name' => ['id' => 'MGISPEC Series', 'en' => 'MGISPEC Series']]),
             'optical' => Category::firstOrCreate(['slug' => 'optical'], ['name' => ['id' => 'Optical Frame', 'en' => 'Optical Frame']]),
-            'premium' => Category::firstOrCreate(['slug' => 'premium'], ['name' => ['id' => 'Premium Titanium', 'en' => 'Premium Titanium']]),
-            'kids' => Category::firstOrCreate(['slug' => 'kids'], ['name' => ['id' => 'Anak & Remaja', 'en' => 'Kids & Teens']]),
-            'sunglass' => Category::firstOrCreate(['slug' => 'sunglass'], ['name' => ['id' => 'Sunglass', 'en' => 'Sunglass']]),
+            'premium' => Category::firstOrCreate(['slug' => 'premium'], ['name' => ['id' => 'Titanium Series', 'en' => 'Titanium Series']]),
+            'kids' => Category::firstOrCreate(['slug' => 'kids'], ['name' => ['id' => 'Kids Series', 'en' => 'Kids Series']]),
+            'sunglass' => Category::firstOrCreate(['slug' => 'sunglass'], ['name' => ['id' => 'Sunglasses Series', 'en' => 'Sunglasses Series']]),
         ];
 
         $jsonFile = __DIR__.'/products_catalog_data.json';

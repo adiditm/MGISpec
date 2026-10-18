@@ -37,10 +37,11 @@
                         $locale = app()->getLocale();
                         $countryName = $branch['country'][$locale] ?? $branch['country']['id'];
                         $roleName = $branch['role'][$locale] ?? $branch['role']['id'];
-                        $hoursName = $branch['hours'][$locale] ?? $branch['hours']['id'];
+                        $hoursName = isset($branch['hours']) ? ($branch['hours'][$locale] ?? $branch['hours']['id']) : null;
                         $badgeName = $branch['badge'][$locale] ?? $branch['badge']['id'];
                         $waText = __('Halo MGISpec :country, saya ingin konsultasi mengenai produk kacamata medis.', ['country' => $countryName]);
-                        $waLink = 'https://wa.me/'.$branch['whatsapp'].'?text='.rawurlencode($waText);
+                        $waLink = isset($branch['whatsapp']) ? 'https://wa.me/'.$branch['whatsapp'].'?text='.rawurlencode($waText) : null;
+                        $email = $branch['email'] ?? null;
                     @endphp
 
                     <div class="relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-7 shadow-sm ring-1 ring-gray-200/80 transition duration-300 hover:shadow-xl hover:ring-brand-200 sm:p-8">
@@ -71,40 +72,53 @@
                             <ul class="mt-6 space-y-4 text-sm text-gray-600">
                                 <li class="flex gap-3">
                                     <i class="fa-solid fa-location-dot mt-1 text-brand-600 shrink-0"></i>
-                                    <span>{{ $branch['address'] }}</span>
+                                    <span>
+                                        @if (isset($branch['company']))<strong class="block font-semibold text-gray-900">{{ $branch['company'] }}</strong>@endif
+                                        {{ $branch['address'] }}
+                                    </span>
                                 </li>
-                                <li class="flex gap-3">
-                                    <i class="fa-solid fa-clock mt-1 text-brand-600 shrink-0"></i>
-                                    <span>{{ $hoursName }}</span>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fa-solid fa-phone mt-1 text-brand-600 shrink-0"></i>
-                                    <a href="tel:{{ $branch['phone'] }}" class="font-medium text-gray-900 hover:text-brand-600">{{ $branch['phone'] }}</a>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fa-solid fa-envelope mt-1 text-brand-600 shrink-0"></i>
-                                    <a href="mailto:{{ $branch['email'] }}" class="font-medium text-gray-900 hover:text-brand-600">{{ $branch['email'] }}</a>
-                                </li>
+                                @if ($hoursName)
+                                    <li class="flex gap-3">
+                                        <i class="fa-solid fa-clock mt-1 text-brand-600 shrink-0"></i>
+                                        <span>{{ $hoursName }}</span>
+                                    </li>
+                                @endif
+                                @if (isset($branch['phone']))
+                                    <li class="flex gap-3">
+                                        <i class="fa-solid fa-phone mt-1 text-brand-600 shrink-0"></i>
+                                        <a href="tel:{{ $branch['phone'] }}" class="font-medium text-gray-900 hover:text-brand-600">{{ $branch['phone'] }}</a>
+                                    </li>
+                                @endif
+                                @if ($email)
+                                    <li class="flex gap-3">
+                                        <i class="fa-solid fa-envelope mt-1 text-brand-600 shrink-0"></i>
+                                        <a href="mailto:{{ $email }}" class="font-medium text-gray-900 hover:text-brand-600">{{ $email }}</a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
 
+                        @if ($waLink || $email || isset($branch['portal_url']))
                         <div class="mt-8 pt-6 border-t border-gray-100 flex flex-wrap items-center gap-3">
+                            @if ($waLink)
                             <a href="{{ $waLink }}" target="_blank" rel="noopener"
                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-xs sm:text-sm font-semibold text-white shadow-md shadow-green-500/20 transition hover:-translate-y-0.5 hover:bg-[#1ebe5a]">
                                 <i class="fa-brands fa-whatsapp text-lg"></i> {{ __('Chat WhatsApp') }}
                             </a>
+                            @endif
                             @if (isset($branch['portal_url']))
                                 <a href="{{ $branch['portal_url'] }}" target="_blank" rel="noopener"
                                    class="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-xs sm:text-sm font-semibold text-white transition hover:bg-gray-800">
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ __('Portal Anggota') }}
                                 </a>
-                            @else
-                                <a href="mailto:{{ $branch['email'] }}"
+                            @elseif ($email)
+                                <a href="mailto:{{ $email }}"
                                    class="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 text-xs sm:text-sm font-semibold text-gray-700 transition hover:border-gray-900">
                                     <i class="fa-solid fa-paper-plane"></i> {{ __('Kirim Email') }}
                                 </a>
                             @endif
                         </div>
+                        @endif
                     </div>
                 @endforeach
             </div>

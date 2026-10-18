@@ -39,8 +39,19 @@
 
             <div id="certifications" class="lg:col-span-3 scroll-mt-24">
                 <h4 class="text-xs font-semibold uppercase tracking-[.2em] text-white">{{ __('Sertifikasi Resmi') }}</h4>
+                @php
+                    $certs = [
+                        ['FDA Registered', ['U.S. Food and Drug Administration']],
+                        ['Halal Registered', ['Halal Indonesia Reg RI HL CN000128113226', 'Halal Certification Services Chongqing (HCS) HCS-BSD260813']],
+                        ['Clinical Test Report', ['Huaxia Eye Hospital']],
+                        ['Liability Insurance', ['Great Eastern']],
+                        [__('Sertifikasi Lainnya'), ['RoHS Certification & CE', 'ISO 9001 · ISO 13485 · ISO 12312-1 · GMP']],
+                    ];
+                @endphp
                 <ul class="mt-5 space-y-4 text-sm">
-                    <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-400"></i><span><strong class="text-gray-200">FDA Registered</strong><br>U.S. Food and Drug Administration</span></li>
+                    @foreach ($certs as [$title, $lines])
+                        <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-400"></i><span><strong class="text-gray-200">{{ $title }}</strong>@foreach ($lines as $line)<br>{{ $line }}@endforeach</span></li>
+                    @endforeach
                 </ul>
             </div>
 

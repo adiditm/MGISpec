@@ -93,7 +93,7 @@
                 <div class="mb-10 flex flex-wrap items-end justify-between gap-6" data-animate>
                     <div>
                         <span class="text-xs font-bold tracking-[.25em] text-brand-600 uppercase">{{ __('Semua Koleksi') }}</span>
-                        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 lg:text-4xl">{{ __('Katalog Frame & Seri Kacamata Medis') }}</h2>
+                        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 lg:text-4xl">{{ __('Katalog Produk MGISPEC') }}</h2>
                     </div>
                     <div class="flex items-center gap-4">
                         <a href="{{ route('catalog.index') }}" class="hidden text-sm font-semibold text-gray-900 underline decoration-brand-500 decoration-2 underline-offset-8 hover:text-brand-600 sm:inline">
