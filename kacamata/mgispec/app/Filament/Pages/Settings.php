@@ -54,7 +54,7 @@ class Settings extends Page implements HasForms
             ]),
             Section::make('Hero Slider')->columns(2)->schema([
                 Select::make('slider_effect')->label('Efek transisi')->required()->options([
-                    'fade' => 'Cinematic Fade (crossfade + zoom pelan)',
+                    'fade' => 'Cinematic Fade (crossfade)',
                     'parallax' => 'Parallax Slide (geser berlapis)',
                     'depth' => 'Depth Zoom (zoom 3D)',
                     'curtain' => 'Curtain Reveal (tirai terbuka)',

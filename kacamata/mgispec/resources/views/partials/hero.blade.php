@@ -2,15 +2,41 @@
     use App\Models\Setting;
     use App\Support\I18n;
     use App\Support\Media;
+    use Illuminate\Support\Facades\Storage;
 
     $alignment = [
         'left' => 'items-start text-left mr-auto',
         'center' => 'items-center text-center mx-auto',
         'right' => 'items-end text-right ml-auto',
     ];
+
+    // The banners carry their own text, so the hero takes the image's aspect ratio instead of the
+    // full screen height; with object-fit: cover nothing gets cropped and every word stays readable.
+    $ratio = function (?string $path): ?string {
+        if (blank($path) || preg_match('#^(https?:)?/#', $path)) {
+            return null;
+        }
+        $size = @getimagesize(Storage::disk('public')->path($path));
+
+        return $size ? "{$size[0]} / {$size[1]}" : null;
+    };
+    $first = $sliders->first();
+    $desktopRatio = $first ? ($ratio($first->t('desktop_image')) ?? '1831 / 859') : null;
+    $mobileRatio = $first ? ($ratio($first->t('mobile_image')) ?? $desktopRatio) : null;
 @endphp
 
 @if ($sliders->isNotEmpty())
+{{-- Inline because the deployed CSS build cannot be rebuilt here: no zoom-in on the banner (it cut off the text),
+     an image-shaped slide area starting below the fixed header, and the counter/tabs in a bar below the banner instead of on top of its text. --}}
+<style>
+    .hero { height: auto; min-height: 0; padding-top: 72px; }
+    @media (min-width: 1024px) { .hero { padding-top: 84px; } }
+    .hero .swiper { height: auto; aspect-ratio: {{ $desktopRatio }}; }
+    @media (max-width: 767px) { .hero .swiper { aspect-ratio: {{ $mobileRatio }}; } }
+    .hero-img, .swiper-slide-active .hero-img { transform: none; transition: none; }
+    .hero [data-hero-ui] { position: relative; }
+    .hero [data-hero-ui] > div { padding-top: 1rem; padding-bottom: 1.25rem; align-items: center; }
+</style>
 <section data-hero data-effect="{{ Setting::get('slider_effect', 'fade') }}" data-delay="{{ Setting::get('slider_delay', 6) }}"
          class="hero relative isolate w-full overflow-hidden bg-black text-white" aria-roledescription="carousel" aria-label="{{ __('Banner utama') }}">
     <div class="swiper">
