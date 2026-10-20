@@ -8,6 +8,7 @@ use App\Models\Slider;
 use App\Support\I18n;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -89,6 +90,9 @@ class SliderResource extends Resource
             Section::make('Tampilan')
                 ->columns(3)
                 ->schema([
+                    Select::make('effect')->label('Efek transisi masuk')->options(Slider::EFFECTS)
+                        ->placeholder('Ikuti pengaturan umum')->columnSpanFull()
+                        ->helperText('Efek saat banner ini muncul menggantikan banner sebelumnya. Kosongkan untuk memakai efek di Pengaturan Website.'),
                     TextInput::make('overlay')->label('Gelap overlay (%)')->numeric()->minValue(0)->maxValue(90)->default(0)
                         ->helperText('Supaya teks terbaca di atas foto terang. 0 = tanpa overlay.'),
                     TextInput::make('sort_order')->label('Urutan')->numeric()->default(0),
@@ -112,6 +116,8 @@ class SliderResource extends Resource
                     ->state(fn (Slider $record) => $record->t('mobile_image', 'id'))
                     ->height(56)->width(45),
                 Tables\Columns\TextColumn::make('title.id')->label('Judul')->placeholder('— (teks di gambar)')->limit(40),
+                Tables\Columns\TextColumn::make('effect')->label('Efek')->placeholder('Pengaturan umum')
+                    ->formatStateUsing(fn (?string $state) => $state ? explode(' — ', Slider::EFFECTS[Slider::effectKey($state)])[0] : null),
                 Tables\Columns\ToggleColumn::make('is_active')->label('Aktif'),
             ])
             ->actions([

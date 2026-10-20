@@ -13,8 +13,8 @@ class Setting extends Model
     protected $casts = ['value' => 'array'];
 
     public const DEFAULTS = [
-        'whatsapp' => '6281234567890',
-        'phone' => '+62 812-3456-7890',
+        'whatsapp' => '6282128815099',
+        'phone' => '+62 821-2881-5099',
         'email' => 'info@mgispec.com',
         'address' => 'Jakarta & Manila Regional Representative',
         'facebook' => 'https://www.facebook.com/mgiclubglobalHQ/',

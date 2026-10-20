@@ -36,9 +36,7 @@
                     @php
                         $locale = app()->getLocale();
                         $countryName = $branch['country'][$locale] ?? $branch['country']['id'];
-                        $roleName = $branch['role'][$locale] ?? $branch['role']['id'];
-                        $hoursName = isset($branch['hours']) ? ($branch['hours'][$locale] ?? $branch['hours']['id']) : null;
-                        $badgeName = $branch['badge'][$locale] ?? $branch['badge']['id'];
+                        $hours = isset($branch['hours']) ? ($branch['hours'][$locale] ?? $branch['hours']['id']) : [];
                         $waText = __('Halo MGISpec :country, saya ingin konsultasi mengenai produk kacamata medis.', ['country' => $countryName]);
                         $waLink = isset($branch['whatsapp']) ? 'https://wa.me/'.$branch['whatsapp'].'?text='.rawurlencode($waText) : null;
                         $email = $branch['email'] ?? null;
@@ -46,27 +44,9 @@
 
                     <div class="relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-7 shadow-sm ring-1 ring-gray-200/80 transition duration-300 hover:shadow-xl hover:ring-brand-200 sm:p-8">
                         <div>
-                            <div class="flex items-center justify-between gap-4">
-                                <div class="flex items-center gap-3">
-                                    <span class="text-3xl drop-shadow-sm">{{ $branch['flag'] }}</span>
-                                    <div>
-                                        <h3 class="text-xl font-extrabold text-gray-900">{{ $countryName }}</h3>
-                                        <span class="text-xs font-medium text-gray-400">{{ $branch['city'] }}</span>
-                                    </div>
-                                </div>
-                                <span class="rounded-full bg-brand-50 px-3 py-1 text-[11px] font-bold tracking-wide text-brand-700 uppercase">
-                                    {{ $badgeName }}
-                                </span>
-                            </div>
-
-                            <div class="mt-5 rounded-2xl bg-gray-50 p-4">
-                                <span class="text-xs font-semibold text-brand-600 uppercase tracking-wider block mb-1">{{ __('Fungsi Layanan') }}</span>
-                                <p class="text-sm font-medium text-gray-800">{{ $roleName }}</p>
-                                @if (isset($branch['regulatory']))
-                                    <span class="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                                        <i class="fa-solid fa-award"></i> {{ $branch['regulatory'] }}
-                                    </span>
-                                @endif
+                            <div class="flex items-center gap-3">
+                                <span class="text-3xl drop-shadow-sm">{{ $branch['flag'] }}</span>
+                                <h3 class="text-xl font-extrabold text-gray-900">{{ $countryName }}</h3>
                             </div>
 
                             <ul class="mt-6 space-y-4 text-sm text-gray-600">
@@ -77,10 +57,10 @@
                                         {{ $branch['address'] }}
                                     </span>
                                 </li>
-                                @if ($hoursName)
+                                @if ($hours)
                                     <li class="flex gap-3">
                                         <i class="fa-solid fa-clock mt-1 text-brand-600 shrink-0"></i>
-                                        <span>{{ $hoursName }}</span>
+                                        <span>{!! collect($hours)->map(fn ($line) => e($line))->implode('<br>') !!}</span>
                                     </li>
                                 @endif
                                 @if (isset($branch['phone']))
@@ -98,7 +78,7 @@
                             </ul>
                         </div>
 
-                        @if ($waLink || $email || isset($branch['portal_url']))
+                        @if ($waLink || $email)
                         <div class="mt-8 pt-6 border-t border-gray-100 flex flex-wrap items-center gap-3">
                             @if ($waLink)
                             <a href="{{ $waLink }}" target="_blank" rel="noopener"
@@ -106,12 +86,7 @@
                                 <i class="fa-brands fa-whatsapp text-lg"></i> {{ __('Chat WhatsApp') }}
                             </a>
                             @endif
-                            @if (isset($branch['portal_url']))
-                                <a href="{{ $branch['portal_url'] }}" target="_blank" rel="noopener"
-                                   class="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-xs sm:text-sm font-semibold text-white transition hover:bg-gray-800">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ __('Portal Anggota') }}
-                                </a>
-                            @elseif ($email)
+                            @if ($email)
                                 <a href="mailto:{{ $email }}"
                                    class="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 text-xs sm:text-sm font-semibold text-gray-700 transition hover:border-gray-900">
                                     <i class="fa-solid fa-paper-plane"></i> {{ __('Kirim Email') }}

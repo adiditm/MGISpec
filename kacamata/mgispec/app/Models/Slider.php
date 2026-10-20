@@ -12,6 +12,23 @@ class Slider extends Model
 
     protected $guarded = [];
 
+    /** Transition effects offered per slide in the CMS (key => label). */
+    public const EFFECTS = [
+        'slide' => 'Slide / Horizontal — bergeser ke kiri atau kanan',
+        'fade' => 'Fade / Crossfade — memudar halus',
+        'kenburns' => 'Zoom / Ken Burns — perlahan membesar',
+        'wipe' => 'Wipe / Reveal — menyapu dari kiri ke kanan',
+        'cube' => '3D Carousel / Cube — berputar 3D',
+    ];
+
+    /** Normalise an effect name, mapping the old site-wide options onto the current ones. */
+    public static function effectKey(?string $effect): string
+    {
+        $effect = ['parallax' => 'slide', 'depth' => 'cube', 'curtain' => 'wipe'][$effect] ?? $effect;
+
+        return array_key_exists((string) $effect, self::EFFECTS) ? $effect : 'fade';
+    }
+
     protected $casts = [
         'badge' => 'array',
         'title' => 'array',
