@@ -52,6 +52,7 @@ function initHeader() {
    Each slide brings its own entrance effect (data-effect, chosen per banner in the CMS), so this is a
    small purpose-built slider instead of Swiper, whose effect is fixed for the whole carousel. */
 const FX_MS = 1100;
+const RANDOM_FX = ['slide', 'fade', 'kenburns', 'wipe', 'cube'];
 
 function initHero() {
     const hero = document.querySelector('[data-hero]');
@@ -107,6 +108,7 @@ function initHero() {
         const from = slides[index];
         const next = slides[to];
         dir ??= to > index ? 1 : -1;
+        if ('random' in next.dataset) next.dataset.effect = RANDOM_FX[Math.floor(Math.random() * RANDOM_FX.length)];
 
         track.dataset.fx = next.dataset.effect;
         track.dataset.dir = String(dir);

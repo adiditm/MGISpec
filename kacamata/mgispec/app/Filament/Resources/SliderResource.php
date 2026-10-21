@@ -92,7 +92,7 @@ class SliderResource extends Resource
                 ->schema([
                     Select::make('effect')->label('Efek transisi masuk')->options(Slider::EFFECTS)
                         ->placeholder('Ikuti pengaturan umum')->columnSpanFull()
-                        ->helperText('Efek saat banner ini muncul menggantikan banner sebelumnya. Kosongkan untuk memakai efek di Pengaturan Website.'),
+                        ->helperText('Efek saat banner ini muncul menggantikan banner sebelumnya. "Ikuti pengaturan umum" = memakai efek yang dipilih di menu Pengaturan Website → Hero Slider → Efek transisi umum (jadi cukup ubah di satu tempat untuk semua banner yang belum punya efek sendiri). "Random" = efek berganti acak setiap kali banner muncul.'),
                     TextInput::make('overlay')->label('Gelap overlay (%)')->numeric()->minValue(0)->maxValue(90)->default(0)
                         ->helperText('Supaya teks terbaca di atas foto terang. 0 = tanpa overlay.'),
                     TextInput::make('sort_order')->label('Urutan')->numeric()->default(0),

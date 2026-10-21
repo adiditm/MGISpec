@@ -54,7 +54,7 @@ class Settings extends Page implements HasForms
             ]),
             Section::make('Hero Slider')->columns(2)->schema([
                 Select::make('slider_effect')->label('Efek transisi umum')->required()->options(\App\Models\Slider::EFFECTS)
-                    ->helperText('Dipakai banner yang tidak memilih efek sendiri di menu Hero Slider.'),
+                    ->helperText('Dipakai semua banner yang di menu Hero Slider diset "Ikuti pengaturan umum". Pilih "Random" supaya efeknya acak.'),
                 TextInput::make('slider_delay')->label('Durasi per slide (detik)')->numeric()->minValue(2)->maxValue(20)->required(),
             ]),
         ]);

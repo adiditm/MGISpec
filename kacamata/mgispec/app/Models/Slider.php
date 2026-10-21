@@ -19,6 +19,7 @@ class Slider extends Model
         'kenburns' => 'Zoom / Ken Burns — perlahan membesar',
         'wipe' => 'Wipe / Reveal — menyapu dari kiri ke kanan',
         'cube' => '3D Carousel / Cube — berputar 3D',
+        'random' => 'Random — efek berganti acak setiap kali banner muncul',
     ];
 
     /** Normalise an effect name, mapping the old site-wide options onto the current ones. */

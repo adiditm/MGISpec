@@ -43,7 +43,7 @@
                 $desktopImage = $slide->t('desktop_image');
                 $mobileImage = $slide->t('mobile_image');
             @endphp
-            <div class="hero-slide {{ $i === 0 ? 'is-active' : '' }}" data-hero-slide data-effect="{{ $slide->effect ? Slider::effectKey($slide->effect) : $defaultEffect }}"
+            <div class="hero-slide {{ $i === 0 ? 'is-active' : '' }}" data-hero-slide data-effect="{{ ($e = $slide->effect ? Slider::effectKey($slide->effect) : $defaultEffect) === 'random' ? 'fade' : $e }}" @if ($e === 'random') data-random @endif
                  data-pos="{{ $pos }}" role="group" aria-roledescription="slide" aria-label="{{ ($i + 1).' / '.$sliders->count() }}">
                 <div class="hero-media">
                     <picture>
