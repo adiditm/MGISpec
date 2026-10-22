@@ -26,6 +26,12 @@ class DatabaseMigrations extends Page
 
     public string $output = '';
 
+    /** Kept out of the sidebar: it is a developer tool, still reachable at /admin/database-migrations. */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     /** Migration names in database/migrations that have not run yet. */
     public function getPending(): array
     {
