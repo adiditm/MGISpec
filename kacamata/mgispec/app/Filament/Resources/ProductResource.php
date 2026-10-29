@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Support\Bilingual;
 use App\Models\Product;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -18,6 +20,7 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class ProductResource extends Resource
@@ -77,24 +80,58 @@ class ProductResource extends Resource
                 ]),
 
                 Tabs\Tab::make('Spesifikasi & Teknologi')->icon('heroicon-m-adjustments-horizontal')->schema([
-                    Repeater::make('specs')->label('Spesifikasi frame')
+                    Section::make('Spesifikasi dimensi')
+                        ->description('Ukuran fisik frame: lebar lensa, bridge, tinggi, panjang kaki, material.')
                         ->schema([
-                            Bilingual::text('label', 'Nama spesifikasi'),
-                            TextInput::make('value')->label('Nilai')->placeholder('52 mm, Titanium, 14 g ...'),
-                        ])
-                        ->itemLabel(fn (array $state) => trim(($state['label']['id'] ?? '').' : '.($state['value'] ?? ''), ' :'))
-                        ->collapsible()->reorderable()->defaultItems(0)->addActionLabel('Tambah spesifikasi'),
-                    Repeater::make('technologies')->label('Teknologi lensa')
+                            Repeater::make('specs')->label('Spesifikasi')
+                                ->schema([
+                                    Bilingual::text('label', 'Nama spesifikasi'),
+                                    TextInput::make('value')->label('Nilai')->placeholder('52 mm, Titanium, 14 g ...'),
+                                ])
+                                ->itemLabel(fn (array $state) => trim(($state['label']['id'] ?? '').' : '.($state['value'] ?? ''), ' :'))
+                                ->collapsible()->reorderable()->defaultItems(0)->addActionLabel('Tambah spesifikasi'),
+                        ]),
+
+                    Section::make('Teknologi Frame')
+                        ->description('Tampil di tab "Teknologi Frame" pada halaman produk. Maksimal 12 item.')
                         ->schema([
-                            TextInput::make('icon')->label('Ikon (Font Awesome)')->placeholder('fa-solid fa-wind'),
-                            Bilingual::text('title', 'Judul'),
-                            Bilingual::textarea('description', 'Penjelasan', rows: 2),
-                        ])
-                        ->itemLabel(fn (array $state) => $state['title']['id'] ?? null)
-                        ->collapsible()->reorderable()->defaultItems(0)->addActionLabel('Tambah teknologi'),
+                            Actions::make([
+                                Action::make('loadFramePreset')
+                                    ->label(fn () => '+ Muat '.count(Product::frameTechnologyPreset()).' Material Standar MGISpec')
+                                    ->icon('heroicon-m-sparkles')->color('gray')
+                                    ->requiresConfirmation()
+                                    ->modalHeading('Muat material standar MGISpec?')
+                                    ->modalDescription('Daftar teknologi frame di produk ini akan DIGANTI dengan material standar (sama dengan daftar di Beranda). Lanjutkan?')
+                                    ->action(fn (Set $set) => $set('frame_technologies', Product::frameTechnologyPreset())),
+                            ]),
+                            self::technologyRepeater('frame_technologies', 12),
+                        ]),
+
+                    Section::make('Teknologi Lensa')
+                        ->description('Tampil di tab "Teknologi Lensa" pada halaman produk. Isi 4, 6, atau 9 item (maksimal 9) supaya kartunya rapi.')
+                        ->schema([
+                            self::technologyRepeater('lens_technologies', 9),
+                        ]),
                 ]),
             ]),
         ]);
+    }
+
+    /** One card per item: any Font Awesome icon class, a title and a short explanation, in each language. */
+    private static function technologyRepeater(string $name, int $max): Repeater
+    {
+        return Repeater::make($name)->label('Daftar teknologi')
+            ->schema([
+                TextInput::make('icon')->label('Ikon (kelas Font Awesome)')
+                    ->placeholder('fa-solid fa-atom')
+                    ->prefixIcon('heroicon-m-sparkles')
+                    ->helperText(new HtmlString('Bebas diganti. Cari ikon di <a href="https://fontawesome.com/search?o=r&m=free" target="_blank" rel="noopener" class="underline">fontawesome.com/search</a> lalu salin kelasnya, misalnya <code>fa-solid fa-shield-virus</code>.')),
+                Bilingual::text('title', 'Judul'),
+                Bilingual::textarea('description', 'Penjelasan', rows: 2),
+            ])
+            ->itemLabel(fn (array $state) => $state['title']['id'] ?? null)
+            ->maxItems($max)
+            ->collapsible()->collapsed()->reorderable()->defaultItems(0)->addActionLabel('Tambah teknologi');
     }
 
     public static function table(Table $table): Table

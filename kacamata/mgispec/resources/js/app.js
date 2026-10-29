@@ -240,6 +240,28 @@ function initTabs() {
     });
 }
 
+/* ───────────── Catalog search (name / SKU, instant) ───────────── */
+function initCatalogSearch() {
+    const input = document.querySelector('[data-catalog-search-input]');
+    const grid = document.querySelector('[data-catalog-grid]');
+    if (!input || !grid) return;
+
+    const items = [...grid.querySelectorAll('[data-product]')];
+    const empty = document.querySelector('[data-catalog-empty]');
+
+    input.addEventListener('input', () => {
+        const terms = input.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        let shown = 0;
+        items.forEach((item) => {
+            const match = terms.every((t) => item.dataset.search.includes(t));
+            item.classList.toggle('hidden', !match);
+            if (match) shown++;
+        });
+        grid.classList.toggle('hidden', shown === 0);
+        if (empty) empty.hidden = shown !== 0;
+    });
+}
+
 /* ───────────── Fade-up sections on scroll ───────────── */
 function initReveal() {
     const items = document.querySelectorAll('[data-animate]');
@@ -258,6 +280,7 @@ function initReveal() {
 document.addEventListener('DOMContentLoaded', () => {
     initHeader();
     initHero();
+    initCatalogSearch();
     initCarousels();
     initGallery();
     initTabs();

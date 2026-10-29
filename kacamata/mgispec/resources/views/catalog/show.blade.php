@@ -8,7 +8,9 @@
     $waUrl = 'https://wa.me/'.Setting::get('whatsapp').'?text='.rawurlencode($waText.' '.url()->current());
     $highlights = collect($product->highlights ?? [])->map(fn ($h) => I18n::pick($h['text'] ?? null))->filter();
     $specs = collect($product->specs ?? [])->filter(fn ($s) => filled($s['value'] ?? null));
-    $techs = collect($product->technologies ?? []);
+    $frameTechs = collect($product->frame_technologies ?? [])->filter(fn ($t) => filled(I18n::pick($t['title'] ?? null)));
+    $lensTechs = collect($product->lens_technologies ?? [])->filter(fn ($t) => filled(I18n::pick($t['title'] ?? null)));
+    $techTabs = ['frame' => [__('Teknologi Frame'), $frameTechs], 'lens' => [__('Teknologi Lensa'), $lensTechs]];
     $description = $product->t('description');
 @endphp
 
@@ -103,7 +105,9 @@
                         <div class="hide-scrollbar flex gap-6 overflow-x-auto border-b border-gray-200 text-sm font-semibold" role="tablist">
                             @if ($description)<button type="button" data-tab="desc" class="tab-btn">{{ __('Deskripsi') }}</button>@endif
                             @if ($specs->isNotEmpty())<button type="button" data-tab="spec" class="tab-btn">{{ __('Spesifikasi') }}</button>@endif
-                            @if ($techs->isNotEmpty())<button type="button" data-tab="tech" class="tab-btn">{{ __('Teknologi') }}</button>@endif
+                            @foreach ($techTabs as $key => [$label, $items])
+                                @if ($items->isNotEmpty())<button type="button" data-tab="tech-{{ $key }}" class="tab-btn">{{ $label }}</button>@endif
+                            @endforeach
                         </div>
 
                         @if ($description)
@@ -121,17 +125,20 @@
                                 </dl>
                             </div>
                         @endif
-                        @if ($techs->isNotEmpty())
-                            <div data-panel="tech" class="grid gap-4 pt-6 sm:grid-cols-2">
-                                @foreach ($techs as $t)
-                                    <div class="rounded-2xl p-5 ring-1 ring-gray-200">
-                                        <span class="brand-gradient grid h-11 w-11 place-items-center rounded-xl text-white"><i class="{{ $t['icon'] ?? 'fa-solid fa-eye' }}"></i></span>
-                                        <h3 class="mt-4 font-semibold text-gray-900">{{ I18n::pick($t['title'] ?? null) }}</h3>
-                                        <p class="mt-1.5 text-sm leading-relaxed text-gray-500">{{ I18n::pick($t['description'] ?? null) }}</p>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
+                        {{-- Teknologi Frame / Teknologi Lensa: icon cards, 2 columns on desktop, 1 on mobile --}}
+                        @foreach ($techTabs as $key => [$label, $items])
+                            @if ($items->isNotEmpty())
+                                <div data-panel="tech-{{ $key }}" class="grid grid-cols-1 gap-4 pt-6 md:grid-cols-2">
+                                    @foreach ($items as $t)
+                                        <div class="rounded-2xl p-5 ring-1 ring-gray-200">
+                                            <span class="brand-gradient grid h-11 w-11 place-items-center rounded-xl text-white"><i class="{{ $t['icon'] ?? 'fa-solid fa-atom' }}"></i></span>
+                                            <h3 class="mt-4 font-semibold text-gray-900">{{ I18n::pick($t['title'] ?? null) }}</h3>
+                                            <p class="mt-1.5 text-sm leading-relaxed text-gray-500">{{ I18n::pick($t['description'] ?? null) }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>

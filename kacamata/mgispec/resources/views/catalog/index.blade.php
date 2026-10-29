@@ -18,18 +18,30 @@
 
     <section class="bg-gray-50 py-10 lg:py-14">
         <div class="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
-            <div class="hide-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">
-                <a href="{{ route('catalog.index') }}"
-                   class="shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition {{ $current ? 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-gray-400' : 'brand-gradient text-white shadow-lg shadow-brand-500/25' }}">
-                    {{ __('Semua') }} <span class="ml-1 opacity-60">{{ $categories->sum('products_count') }}</span>
-                </a>
-                @foreach ($categories as $category)
-                    @php $active = $current && $current->is($category); @endphp
-                    <a href="{{ route('catalog.index', ['kategori' => $category->slug]) }}"
-                       class="shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition {{ $active ? 'brand-gradient text-white shadow-lg shadow-brand-500/25' : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-gray-400' }}">
-                        {{ $category->t('name') }} <span class="ml-1 opacity-60">{{ $category->products_count }}</span>
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+                <div class="hide-scrollbar -mx-4 order-2 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0 lg:order-1">
+                    <a href="{{ route('catalog.index') }}"
+                       class="shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition {{ $current ? 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-gray-400' : 'brand-gradient text-white shadow-lg shadow-brand-500/25' }}">
+                        {{ __('Semua') }} <span class="ml-1 opacity-60">{{ $categories->sum('products_count') }}</span>
                     </a>
-                @endforeach
+                    @foreach ($categories as $category)
+                        @php $active = $current && $current->is($category); @endphp
+                        <a href="{{ route('catalog.index', ['kategori' => $category->slug]) }}"
+                           class="shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition {{ $active ? 'brand-gradient text-white shadow-lg shadow-brand-500/25' : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-gray-400' }}">
+                            {{ $category->t('name') }} <span class="ml-1 opacity-60">{{ $category->products_count }}</span>
+                        </a>
+                    @endforeach
+                </div>
+
+                {{-- Instant search by model name or SKU, filters the products already on the page --}}
+                <form role="search" data-catalog-search onsubmit="return false" class="order-1 w-full shrink-0 lg:order-2 lg:w-80">
+                    <label class="relative block">
+                        <span class="sr-only">{{ __('Cari model atau SKU') }}</span>
+                        <i class="fa-solid fa-magnifying-glass pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sm text-gray-400"></i>
+                        <input type="search" data-catalog-search-input autocomplete="off" placeholder="{{ __('Cari model atau SKU') }}"
+                               class="w-full rounded-full border-0 bg-white py-3 pr-5 pl-11 text-sm text-gray-900 ring-1 ring-gray-200 transition placeholder:text-gray-400 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </label>
+                </form>
             </div>
 
             @if ($products->isEmpty())
@@ -38,10 +50,14 @@
                     <p class="mt-4 text-gray-500">{{ __('Belum ada produk di kategori ini.') }}</p>
                 </div>
             @else
-                <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5">
+                <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5" data-catalog-grid>
                     @foreach ($products as $product)
-                        <div data-animate>@include('partials.product-card')</div>
+                        <div data-animate data-product data-search="{{ \Illuminate\Support\Str::lower(collect([$product->sku, ...array_values((array) $product->name)])->filter()->implode(' ')) }}">@include('partials.product-card')</div>
                     @endforeach
+                </div>
+                <div data-catalog-empty hidden class="mt-16 rounded-3xl bg-white p-14 text-center ring-1 ring-gray-200">
+                    <i class="fa-solid fa-magnifying-glass text-4xl text-gray-300"></i>
+                    <p class="mt-4 text-gray-500">{{ __('Tidak ada produk yang cocok dengan pencarian Anda.') }}</p>
                 </div>
             @endif
         </div>

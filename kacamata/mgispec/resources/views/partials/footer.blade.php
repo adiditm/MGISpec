@@ -30,9 +30,7 @@
                 <ul class="mt-5 space-y-3 text-sm">
                     <li><a href="{{ route('home') }}" class="transition hover:text-white">{{ __('Beranda') }}</a></li>
                     <li><a href="{{ route('catalog.index') }}" class="transition hover:text-white">{{ __('Katalog MGISPEC') }}</a></li>
-                    <li><a href="{{ route('home') }}#profile" class="transition hover:text-white">{{ __('Profil MGISPEC') }}</a></li>
-                    <li><a href="{{ route('home') }}#technologies" class="transition hover:text-white">{{ __('Teknologi MGISPEC') }}</a></li>
-                    <li><a href="{{ route('home') }}#certifications" class="transition hover:text-white">{{ __('Sertifikasi MGISPEC') }}</a></li>
+                    {{-- Profil, Teknologi and Sertifikasi MGISPEC links are hidden until those pages are ready (feedback 27-10-2026) --}}
                     <li><a href="{{ route('contact') }}" class="transition hover:text-white">{{ __('Kontak MGISPEC') }}</a></li>
                 </ul>
             </div>

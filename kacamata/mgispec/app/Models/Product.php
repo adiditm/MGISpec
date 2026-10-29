@@ -22,6 +22,8 @@ class Product extends Model
         'highlights' => 'array',
         'specs' => 'array',
         'technologies' => 'array',
+        'frame_technologies' => 'array',
+        'lens_technologies' => 'array',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
@@ -34,6 +36,22 @@ class Product extends Model
         'purple' => 'Ungu',
         'dark' => 'Hitam',
     ];
+
+    /**
+     * The standard MGISpec frame materials (icon, title, description), taken from the
+     * "Performa Unggul" material list on the Beranda so both stay the same. Used to fill
+     * a product's frame technologies in one go.
+     */
+    public static function frameTechnologyPreset(): array
+    {
+        return PromoBanner::active()->get()
+            ->map(fn (PromoBanner $m) => [
+                'icon' => $m->icon ?: 'fa-solid fa-atom',
+                'title' => $m->title,
+                'description' => $m->description,
+            ])
+            ->values()->all();
+    }
 
     public function getRouteKeyName(): string
     {
