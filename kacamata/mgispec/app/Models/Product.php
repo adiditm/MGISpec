@@ -53,6 +53,23 @@ class Product extends Model
             ->values()->all();
     }
 
+    /** Placeholder lens technologies (lorem ipsum) until the real content from the client arrives. */
+    public static function sampleLensTechnologies(): array
+    {
+        $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
+        return collect([
+            ['fa-solid fa-eye', 'Lorem Ipsum Dolor'],
+            ['fa-solid fa-glasses', 'Sit Amet Consectetur'],
+            ['fa-solid fa-droplet', 'Adipiscing Elit'],
+            ['fa-solid fa-layer-group', 'Sed Do Eiusmod'],
+        ])->map(fn ($r) => [
+            'icon' => $r[0],
+            'title' => ['id' => $r[1], 'en' => $r[1]],
+            'description' => ['id' => $lorem, 'en' => $lorem],
+        ])->all();
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

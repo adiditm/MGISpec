@@ -8,9 +8,9 @@
     $waUrl = 'https://wa.me/'.Setting::get('whatsapp').'?text='.rawurlencode($waText.' '.url()->current());
     $highlights = collect($product->highlights ?? [])->map(fn ($h) => I18n::pick($h['text'] ?? null))->filter();
     $specs = collect($product->specs ?? [])->filter(fn ($s) => filled($s['value'] ?? null));
-    // null = not migrated / never filled: fall back to the old single list (lens) and the standard materials (frame)
-    $frameTechs = collect($product->frame_technologies ?? \App\Models\Product::frameTechnologyPreset())->filter(fn ($t) => filled(I18n::pick($t['title'] ?? null)));
-    $lensTechs = collect($product->lens_technologies ?? $product->technologies ?? [])->filter(fn ($t) => filled(I18n::pick($t['title'] ?? null)));
+    // null = not migrated / never filled: fall back to the old single list (frame) and the lorem ipsum sample (lens)
+    $frameTechs = collect($product->frame_technologies ?? $product->technologies ?? [])->filter(fn ($t) => filled(I18n::pick($t['title'] ?? null)));
+    $lensTechs = collect($product->lens_technologies ?? \App\Models\Product::sampleLensTechnologies())->filter(fn ($t) => filled(I18n::pick($t['title'] ?? null)));
     $techTabs = ['frame' => [__('Teknologi Frame'), $frameTechs], 'lens' => [__('Teknologi Lensa'), $lensTechs]];
     $description = $product->t('description');
 @endphp
