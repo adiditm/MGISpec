@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\IconPicker;
 use App\Filament\Resources\PromoBannerResource\Pages;
 use App\Filament\Support\Bilingual;
 use App\Models\PromoBanner;
@@ -41,8 +42,7 @@ class PromoBannerResource extends Resource
                     TextInput::make('badge')->label('Badge')->placeholder('FREE, CERTIFIED, BONUS ...')->maxLength(50),
                     Bilingual::text('title', 'Judul'),
                     Bilingual::textarea('description', 'Deskripsi', rows: 2),
-                    TextInput::make('icon')->label('Ikon (Font Awesome)')->placeholder('fa-solid fa-glasses')
-                        ->helperText('Cari nama ikon di fontawesome.com/icons'),
+                    IconPicker::make('icon')->label('Ikon'),
                     TextInput::make('link_url')->label('Link (opsional)'),
                 ]),
             Section::make()->columns(2)->schema([

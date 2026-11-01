@@ -53,8 +53,8 @@ class Product extends Model
             ->values()->all();
     }
 
-    /** Placeholder lens technologies (lorem ipsum) until the real content from the client arrives. */
-    public static function sampleLensTechnologies(): array
+    /** Placeholder frame technologies (lorem ipsum) until the real content from the client arrives. */
+    public static function sampleFrameTechnologies(): array
     {
         $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 

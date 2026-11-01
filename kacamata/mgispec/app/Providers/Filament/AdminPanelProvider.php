@@ -13,6 +13,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -40,6 +41,10 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::hex('#d6336c'),
             ])
             ->font('Poppins')
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn () => request()->routeIs('filament.admin.resources.*') ? view('filament.icon-picker-assets') : '',
+            )
             ->navigationGroups(['Beranda', 'Katalog'])
             ->navigationItems([
                 NavigationItem::make('Lihat Website')

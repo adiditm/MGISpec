@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\IconPicker;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Support\Bilingual;
 use App\Models\Product;
@@ -20,7 +21,6 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class ProductResource extends Resource
@@ -122,10 +122,7 @@ class ProductResource extends Resource
     {
         return Repeater::make($name)->label('Daftar teknologi')
             ->schema([
-                TextInput::make('icon')->label('Ikon (kelas Font Awesome)')
-                    ->placeholder('fa-solid fa-atom')
-                    ->prefixIcon('heroicon-m-sparkles')
-                    ->helperText(new HtmlString('Bebas diganti. Cari ikon di <a href="https://fontawesome.com/search?o=r&m=free" target="_blank" rel="noopener" class="underline">fontawesome.com/search</a> lalu salin kelasnya, misalnya <code>fa-solid fa-shield-virus</code>.')),
+                IconPicker::make('icon')->label('Ikon')->default('fa-solid fa-atom'),
                 Bilingual::text('title', 'Judul'),
                 Bilingual::textarea('description', 'Penjelasan', rows: 2),
             ])
