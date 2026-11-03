@@ -10,7 +10,7 @@ class ContactController extends Controller
     {
         $branches = [
             [
-                'country' => ['id' => 'Indonesia', 'en' => 'Indonesia'],
+                'country' => ['id' => 'Indonesia', 'en' => 'Indonesia', 'cn' => '印度尼西亚'],
                 'code' => 'id',
                 'flag' => '🇮🇩',
                 'company' => 'PT. MEGA GLORYOUNG INTERNATIONAL',
@@ -21,10 +21,11 @@ class ContactController extends Controller
                 'hours' => [
                     'id' => ['Senin - Jumat 10.00 WIB - 18.00 WIB', 'Sabtu 10.00 WIB - 14.00 WIB'],
                     'en' => ['Monday - Friday 10.00 AM - 06.00 PM (WIB)', 'Saturday 10.00 AM - 02.00 PM (WIB)'],
+                    'cn' => ['周一至周五 10:00 - 18:00（雅加达时间）', '周六 10:00 - 14:00（雅加达时间）'],
                 ],
             ],
             [
-                'country' => ['id' => 'Filipina', 'en' => 'Philippines'],
+                'country' => ['id' => 'Filipina', 'en' => 'Philippines', 'cn' => '菲律宾'],
                 'code' => 'ph',
                 'flag' => '🇵🇭',
                 'company' => 'Mega Gloryoung International HQ',
@@ -35,10 +36,11 @@ class ContactController extends Controller
                 'hours' => [
                     'id' => ['Senin - Sabtu 11.00 - 18.00'],
                     'en' => ['Monday to Saturday 11.00 AM - 06.00 PM'],
+                    'cn' => ['周一至周六 11:00 - 18:00'],
                 ],
             ],
             [
-                'country' => ['id' => 'Malaysia', 'en' => 'Malaysia'],
+                'country' => ['id' => 'Malaysia', 'en' => 'Malaysia', 'cn' => '马来西亚'],
                 'code' => 'my',
                 'flag' => '🇲🇾',
                 'company' => 'MGICLUB (M) SDN.BHD',
@@ -46,7 +48,7 @@ class ContactController extends Controller
                 'email' => 'MgiSuperMalaysia@gmail.com',
             ],
             [
-                'country' => ['id' => 'Thailand', 'en' => 'Thailand'],
+                'country' => ['id' => 'Thailand', 'en' => 'Thailand', 'cn' => '泰国'],
                 'code' => 'th',
                 'flag' => '🇹🇭',
                 'company' => 'Mega Gloryoung International Co., LTD',

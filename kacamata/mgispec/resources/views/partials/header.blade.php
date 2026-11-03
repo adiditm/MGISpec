@@ -25,7 +25,7 @@
         </nav>
 
         <div class="flex items-center gap-2 sm:gap-3">
-            {{-- Language switch: segmented ID | EN (CN prepared) --}}
+            {{-- Language switch: segmented ID | EN | CN --}}
             <div class="hidden items-center rounded-full border border-current/25 p-1 text-xs font-semibold sm:flex" role="group" aria-label="Language">
                 @foreach (I18n::enabledLocales() as $code => $meta)
                     <a href="{{ I18n::switchUrl($code) }}" hreflang="{{ $code }}" title="{{ $meta['label'] }}"

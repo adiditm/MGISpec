@@ -35,8 +35,8 @@
                 @foreach ($branches as $branch)
                     @php
                         $locale = app()->getLocale();
-                        $countryName = $branch['country'][$locale] ?? $branch['country']['id'];
-                        $hours = isset($branch['hours']) ? ($branch['hours'][$locale] ?? $branch['hours']['id']) : [];
+                        $countryName = $branch['country'][$locale] ?? $branch['country']['en'] ?? $branch['country']['id'];
+                        $hours = isset($branch['hours']) ? ($branch['hours'][$locale] ?? $branch['hours']['en'] ?? $branch['hours']['id']) : [];
                         $waText = __('Halo MGISpec :country, saya ingin konsultasi mengenai produk kacamata medis.', ['country' => $countryName]);
                         $waLink = isset($branch['whatsapp']) ? 'https://wa.me/'.$branch['whatsapp'].'?text='.rawurlencode($waText) : null;
                         $email = $branch['email'] ?? null;

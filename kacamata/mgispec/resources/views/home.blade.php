@@ -77,7 +77,7 @@
                         </button>
                     </div>
                     <div class="overflow-y-auto p-4 sm:p-6 text-center" style="max-height: calc(92vh - 80px)">
-                        @php $infoImg = app()->getLocale() === 'en' ? 'images/infografis-material-en.png' : 'images/infografis-material-id.png'; @endphp
+                        @php $infoImg = app()->getLocale() !== 'id' ? 'images/infografis-material-en.png' : 'images/infografis-material-id.png'; @endphp
                         <img src="{{ asset($infoImg) }}" alt="{{ __('Diagram Material Canggih MGISpec') }}" class="mx-auto h-auto max-w-full rounded-2xl shadow-sm">
                     </div>
                 </div>

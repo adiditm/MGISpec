@@ -7,7 +7,7 @@ class I18n
     public const LOCALES = [
         'id' => ['label' => 'Indonesia', 'short' => 'ID', 'flag' => '🇮🇩', 'enabled' => true],
         'en' => ['label' => 'English', 'short' => 'EN', 'flag' => '🇬🇧', 'enabled' => true],
-        'cn' => ['label' => '中文', 'short' => 'CN', 'flag' => '🇨🇳', 'enabled' => false],
+        'cn' => ['label' => '中文', 'short' => 'CN', 'flag' => '🇨🇳', 'enabled' => true],
     ];
 
     /** Locales currently active in the front-end language switcher. */
@@ -16,7 +16,10 @@ class I18n
         return array_filter(self::LOCALES, fn ($meta) => ! empty($meta['enabled']));
     }
 
-    /** Current-locale text from a ['id' => .., 'en' => .., 'cn' => ..] value, falling back to Indonesian. */
+    /**
+     * Current-locale text from a ['id' => .., 'en' => .., 'cn' => ..] value.
+     * Chinese falls back to English, then Indonesian; English falls back to Indonesian.
+     */
     public static function pick(mixed $value, ?string $locale = null): mixed
     {
         if (! is_array($value)) {
@@ -29,7 +32,11 @@ class I18n
             return $value[$locale];
         }
 
-        if ($locale === 'en' && filled($value['ph'] ?? null)) {
+        if ($locale === 'cn' && filled($value['en'] ?? null)) {
+            return $value['en'];
+        }
+
+        if ($locale !== 'id' && filled($value['ph'] ?? null)) {
             return $value['ph'];
         }
 

@@ -10,8 +10,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 
 /**
- * Side-by-side ID / PH inputs for a bilingual JSON column ("field.id", "field.ph").
- * Indonesian is required when $required; Philippines falls back to Indonesian when left empty.
+ * Side-by-side ID / EN / CN inputs for a multilingual JSON column ("field.id", "field.en", "field.cn").
+ * Indonesian is required when $required; English falls back to Indonesian and Chinese to English when left empty.
  */
 class Bilingual
 {
@@ -43,7 +43,9 @@ class Bilingual
             if ($code === 'id') {
                 $input->required($required);
             } else {
-                $input->placeholder('Kosongkan = pakai teks Bahasa Indonesia');
+                $input->placeholder($code === 'cn'
+                    ? 'Kosongkan = pakai teks English / Indonesia'
+                    : 'Kosongkan = pakai teks Bahasa Indonesia');
             }
 
             $inputs[] = $input;
