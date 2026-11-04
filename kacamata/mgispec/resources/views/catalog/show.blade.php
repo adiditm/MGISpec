@@ -146,6 +146,8 @@
         </div>
     </section>
 
+    @include('partials.certificates')
+
     @if ($related->isNotEmpty())
         <section class="bg-gray-50 py-14 lg:py-20">
             <div class="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10" data-carousel data-free="true"

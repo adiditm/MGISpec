@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Certificate;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class CatalogController extends Controller
 {
@@ -34,6 +36,9 @@ class CatalogController extends Controller
             ->limit(10)
             ->get();
 
-        return view('catalog.show', compact('product', 'related'));
+        // the table only exists after the certificates migration has been run
+        $certificates = Schema::hasTable('certificates') ? Certificate::active()->get() : collect();
+
+        return view('catalog.show', compact('product', 'related', 'certificates'));
     }
 }

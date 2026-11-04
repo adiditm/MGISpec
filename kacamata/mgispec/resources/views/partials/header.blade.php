@@ -13,18 +13,28 @@
 
 <header data-header data-over-hero="{{ $overHero ? 'true' : 'false' }}" data-transparent="{{ $overHero ? 'true' : 'false' }}"
         class="site-header fixed inset-x-0 top-0 z-50">
-    <div class="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-6 lg:h-[84px] lg:px-10">
-        <a href="{{ route('home') }}" class="shrink-0" aria-label="MGISpec — Home">
-            <img src="{{ asset('images/logo-sm.png') }}" alt="MGISpec" class="h-9 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,.25)] lg:h-11" width="640" height="174">
-        </a>
+    <div class="mx-auto flex h-[72px] max-w-[1440px] items-center gap-6 px-4 sm:px-6 lg:h-[84px] lg:px-10">
+        {{-- Left: MGISpec + MGIClub logos, then the menu right next to them --}}
+        <div class="flex min-w-0 items-center gap-4 lg:gap-8">
+            <div class="flex shrink-0 items-center gap-3 lg:gap-4">
+                <a href="{{ route('home') }}" class="shrink-0" aria-label="MGISpec — Home">
+                    <img src="{{ asset('images/logo-sm.png') }}" alt="MGISpec" class="h-9 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,.25)] lg:h-11" width="640" height="174">
+                </a>
+                @if (file_exists(public_path('images/logo-mgiclub.png')))
+                    <a href="https://member.mgiclub.com/" target="_blank" rel="noopener noreferrer" class="shrink-0" aria-label="MGIClub">
+                        <img src="{{ asset('images/logo-mgiclub.png') }}" alt="MGIClub" class="h-9 w-auto lg:h-11">
+                    </a>
+                @endif
+            </div>
 
-        <nav class="hidden items-center gap-7 text-[0.9rem] font-medium xl:flex" aria-label="Main">
-            @foreach ($nav as $item)
-                <a href="{{ $item['url'] }}" class="nav-link whitespace-nowrap" @if ($item['active'] ?? false) aria-current="page" @endif>{{ $item['label'] }}</a>
-            @endforeach
-        </nav>
+            <nav class="hidden items-center gap-7 text-[0.9rem] font-medium xl:flex" aria-label="Main">
+                @foreach ($nav as $item)
+                    <a href="{{ $item['url'] }}" class="nav-link whitespace-nowrap" @if ($item['active'] ?? false) aria-current="page" @endif>{{ $item['label'] }}</a>
+                @endforeach
+            </nav>
+        </div>
 
-        <div class="flex items-center gap-2 sm:gap-3">
+        <div class="ml-auto flex items-center gap-2 sm:gap-3">
             {{-- Language switch: segmented ID | EN | CN --}}
             <div class="hidden items-center rounded-full border border-current/25 p-1 text-xs font-semibold sm:flex" role="group" aria-label="Language">
                 @foreach (I18n::enabledLocales() as $code => $meta)
