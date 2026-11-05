@@ -58,6 +58,14 @@
                     <div class="hero-overlay" style="--overlay: {{ $slide->overlay / 100 }}"></div>
                 @endif
 
+                @if ($slide->video_path)
+                    <button type="button" class="hero-play" data-hero-video="{{ Media::url($slide->video_path) }}"
+                            data-poster="{{ Media::url($desktopImage) }}" aria-label="{{ __('Putar video') }}">
+                        <span class="hero-play-icon"><i class="fa-solid fa-play"></i></span>
+                        <span class="hero-play-label">{{ __('Putar video') }}</span>
+                    </button>
+                @endif
+
                 @if ($title || $badge || $subtitle || $cta || $cta2)
                     <div class="relative z-10 mx-auto flex h-full max-w-[1440px] px-5 pt-24 pb-36 sm:px-10 lg:px-20 {{ $title || $subtitle ? 'items-center' : 'items-end' }}">
                         <div class="flex max-w-3xl flex-col {{ $alignment[$pos] ?? $alignment['left'] }}">
@@ -127,4 +135,81 @@
     </div>
 
 </section>
+
+@if ($sliders->contains(fn ($s) => filled($s->video_path)))
+    {{-- Video player opened by the play button on a slide. Styles/script are inline because the deployed CSS/JS build is not rebuilt. --}}
+    <div class="mgi-video-modal" data-video-modal hidden role="dialog" aria-modal="true" aria-label="{{ __('Putar video') }}">
+        <button type="button" class="mgi-video-x" data-video-close aria-label="{{ __('Tutup') }}"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="mgi-video-sound" data-video-sound><i class="fa-solid fa-volume-xmark"></i><span>{{ __('Ketuk untuk suara') }}</span></button>
+        <div class="mgi-video-stage" data-video-stage>
+            <video data-video-el controls playsinline controlsList="nodownload" preload="none" muted></video>
+        </div>
+    </div>
+    <style>
+        .hero-play { position: absolute; left: 50%; top: 73%; z-index: 15; display: flex; flex-direction: column; align-items: center; gap: .75rem;
+            transform: translate(-50%, -50%); color: #fff; cursor: pointer; }
+        .hero-play-icon { display: grid; place-items: center; width: 5.25rem; height: 5.25rem; border-radius: 999px; font-size: 1.6rem; padding-left: .25rem;
+            background-image: linear-gradient(100deg, #f0953f 0%, #e0457b 55%, #b4245a 100%); box-shadow: 0 0 0 .6rem rgb(255 255 255 / .14), 0 12px 40px rgb(0 0 0 / .5);
+            transition: transform .3s, box-shadow .3s; animation: hero-play-pulse 2.4s ease-out infinite; }
+        .hero-play:hover .hero-play-icon { transform: scale(1.08); }
+        .hero-play-label { padding: .3rem .9rem; border-radius: 999px; font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: rgb(0 0 0 / .45); backdrop-filter: blur(6px); }
+        @keyframes hero-play-pulse { 0% { box-shadow: 0 0 0 0 rgb(255 255 255 / .35), 0 12px 40px rgb(0 0 0 / .5); } 100% { box-shadow: 0 0 0 1.4rem rgb(255 255 255 / 0), 0 12px 40px rgb(0 0 0 / .5); } }
+        @media (max-width: 767px) { .hero-play { top: 74%; } .hero-play-icon { width: 4rem; height: 4rem; font-size: 1.2rem; } .hero-play-label { font-size: .68rem; } }
+        .mgi-video-modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; background: rgb(6 8 14 / .94); }
+        .mgi-video-modal[hidden] { display: none; }
+        .mgi-video-stage { display: grid; place-items: center; width: 100%; padding: 1rem; }
+        .mgi-video-stage video { width: min(96vw, 1700px); height: auto; max-height: 84vh; border-radius: .75rem; background: #000; box-shadow: 0 10px 50px rgb(0 0 0 / .6); }
+        .mgi-video-x { position: absolute; top: 1rem; right: 1rem; z-index: 2; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 999px; color: #fff; background: rgb(255 255 255 / .16); cursor: pointer; }
+        .mgi-video-x:hover { background: rgb(255 255 255 / .3); }
+        .mgi-video-sound { position: absolute; top: 1rem; left: 1rem; z-index: 2; display: flex; align-items: center; gap: .6rem; height: 2.75rem; padding: 0 1.1rem; border-radius: 999px; color: #fff; font-size: .85rem; font-weight: 600;
+            background-image: linear-gradient(100deg, #f0953f 0%, #e0457b 55%, #b4245a 100%); box-shadow: 0 6px 24px rgb(0 0 0 / .45); cursor: pointer; }
+        .mgi-video-sound[hidden] { display: none; }
+    </style>
+    <script>
+        (function () {
+            var modal = document.querySelector('[data-video-modal]'), hero = document.querySelector('[data-hero]');
+            if (!modal || !hero) return;
+            var video = modal.querySelector('[data-video-el]'), track = hero.querySelector('[data-hero-track]'), isOpen = false;
+
+            // keep the hero from auto-advancing while the video is open: reuse its own hover pause
+            function holdHero(on) {
+                isOpen = on;
+                if (track) track.dispatchEvent(new MouseEvent(on ? 'mouseenter' : 'mouseleave'));
+            }
+            if (track) track.addEventListener('mouseleave', function (e) { if (isOpen) e.stopImmediatePropagation(); }, true);
+
+            // the video always starts silent; sound is switched on by the visitor
+            var soundBtn = modal.querySelector('[data-video-sound]');
+            function syncSound() { soundBtn.hidden = !(video.muted || video.volume === 0); }
+            soundBtn.addEventListener('click', function () { video.muted = false; if (video.volume === 0) video.volume = 1; syncSound(); });
+            video.addEventListener('volumechange', syncSound);
+
+            function open(btn) {
+                video.poster = btn.dataset.poster || '';
+                video.muted = true;
+                syncSound();
+                video.src = btn.dataset.heroVideo;
+                modal.hidden = false;
+                document.documentElement.style.overflow = 'hidden';
+                holdHero(true);
+                var p = video.play();
+                if (p && p.catch) p.catch(function () {});
+            }
+            function close() {
+                video.pause();
+                video.removeAttribute('src');
+                video.load();
+                modal.hidden = true;
+                document.documentElement.style.overflow = '';
+                holdHero(false);
+            }
+            hero.querySelectorAll('[data-hero-video]').forEach(function (btn) {
+                btn.addEventListener('click', function () { open(btn); });
+            });
+            modal.querySelector('[data-video-close]').addEventListener('click', close);
+            modal.querySelector('[data-video-stage]').addEventListener('click', function (e) { if (e.target === this) close(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
+        })();
+    </script>
+@endif
 @endif

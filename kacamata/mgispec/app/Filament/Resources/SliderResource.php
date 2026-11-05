@@ -66,6 +66,19 @@ class SliderResource extends Resource
                     Tabs::make('Bahasa Banner')->tabs($localeTabs),
                 ]),
 
+            Section::make('Video (opsional)')
+                ->description('Jika diisi, banner ini menampilkan tombol play di tengah. Gambar banner di atas dipakai sebagai poster; video diputar di jendela besar saat tombol diklik.')
+                ->collapsible()
+                ->schema([
+                    FileUpload::make('video_path')
+                        ->label('File video (MP4)')
+                        ->helperText('Format MP4 (H.264), disarankan di bawah 40 MB agar cepat dimuat. Kosongkan jika banner ini hanya gambar.')
+                        ->acceptedFileTypes(['video/mp4'])
+                        ->directory('videos')
+                        ->maxSize(102400)
+                        ->downloadable(),
+                ]),
+
             Section::make('Teks di Atas Banner')
                 ->description('Matikan jika teks sudah menyatu di dalam gambar banner. Judul tetap dipakai untuk label tab dan alt gambar.')
                 ->schema([
