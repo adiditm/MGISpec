@@ -58,6 +58,13 @@
     </style>
     <script>
         (function () {
+            // Touch screens fake a "mouse enter" on the first tap and never send the "leave", which would freeze the
+            // auto-advance. Registered before Swiper boots, so it can swallow that event on touch devices only.
+            var strip = document.querySelector('.mgi-cert .swiper');
+            if (strip && window.matchMedia('(hover: none), (pointer: coarse)').matches) {
+                strip.addEventListener('mouseenter', function (e) { e.stopImmediatePropagation(); });
+            }
+
             var modal = document.querySelector('[data-cert-modal]');
             if (!modal) return;
             var img = modal.querySelector('[data-cert-img]'), title = modal.querySelector('[data-cert-title]'), dl = modal.querySelector('[data-cert-download]');
