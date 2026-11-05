@@ -42,7 +42,7 @@
         .mgi-cert-card { display: flex; flex-direction: column; width: 100%; height: 100%; padding: .6rem; border-radius: 1rem; background: #fff; text-align: center; cursor: zoom-in;
             box-shadow: 0 0 0 1px rgb(0 0 0 / .08); transition: box-shadow .25s, transform .25s; }
         .mgi-cert-card:hover { box-shadow: 0 0 0 1px rgb(0 0 0 / .2), 0 8px 20px rgb(0 0 0 / .08); transform: translateY(-2px); }
-        .mgi-cert-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; border-radius: .6rem; background: #f8f9fb; }
+        .mgi-cert-card img { width: 100%; aspect-ratio: 3 / 4; object-fit: contain; border-radius: .6rem; background: #f8f9fb; }
         .mgi-cert-card span { margin-top: .5rem; font-size: .72rem; font-weight: 600; color: #4b5563; line-height: 1.2; }
         .mgi-cert-modal { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; background: rgb(10 12 18 / .92); }
         .mgi-cert-modal[hidden] { display: none; }
