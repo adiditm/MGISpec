@@ -1,7 +1,7 @@
 {{-- Certificate slider: small cards, click = large view with a button that downloads the PDF --}}
 @if ($certificates->isNotEmpty())
     <section class="mgi-cert bg-white pb-14 lg:pb-20" aria-label="{{ __('Sertifikat') }}">
-        <div class="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10" data-carousel
+        <div class="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10" data-carousel data-autoplay="3500" data-loop="{{ $certificates->count() > 7 ? 'true' : 'false' }}"
              data-breakpoints='{"480":{"slidesPerView":3.2},"768":{"slidesPerView":4.2,"spaceBetween":16},"1024":{"slidesPerView":5.2,"spaceBetween":18},"1280":{"slidesPerView":6,"spaceBetween":20}}'>
             <div class="mb-5 flex items-center justify-between gap-6 border-t border-gray-100 pt-10">
                 <h2 class="text-xl font-extrabold tracking-tight text-gray-900 lg:text-2xl">{{ __('Sertifikat') }}</h2>
