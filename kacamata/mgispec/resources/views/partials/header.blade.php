@@ -89,6 +89,17 @@
                 </a>
             @endforeach
         </div>
+        {{-- the header hides its Facebook icon on phones, so the drawer carries the social links --}}
+        @php $drawerSocials = array_filter(['Facebook' => ['fa-facebook-f', \App\Models\Setting::get('facebook')], 'Instagram' => ['fa-instagram', \App\Models\Setting::get('instagram')]], fn ($s) => filled($s[1])); @endphp
+        @if ($drawerSocials)
+            <div class="flex items-center justify-center gap-3">
+                @foreach ($drawerSocials as $name => [$icon, $link])
+                    <a href="{{ $link }}" target="_blank" rel="noopener" aria-label="{{ $name }}" class="grid h-10 w-10 place-items-center rounded-full border text-gray-600 hover:bg-gray-50">
+                        <i class="fa-brands {{ $icon }}"></i>
+                    </a>
+                @endforeach
+            </div>
+        @endif
         <a href="https://member.mgiclub.com/member/login.jsp" target="_blank" rel="noopener noreferrer"
            class="flex items-center justify-center gap-2 rounded-xl bg-ink px-4 py-3 text-sm font-semibold text-white">
             <i class="fa-regular fa-circle-user"></i> {{ __('Login') }}

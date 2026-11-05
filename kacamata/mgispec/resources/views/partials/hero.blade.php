@@ -111,9 +111,9 @@
     <div data-hero-ui class="hero-ui relative z-20">
         <div class="mx-auto flex max-w-[1440px] items-end gap-6 px-5 pb-7 sm:px-10 lg:gap-10 lg:px-20 lg:pb-10 2xl:pr-20 max-2xl:md:pr-48 max-md:pr-24">
             {{-- previous arrow: bottom-left corner of the slide --}}
-            <div class="hidden shrink-0 md:flex"><button type="button" data-hero-prev class="hero-arrow" aria-label="{{ __('Sebelumnya') }}"><i class="fa-solid fa-arrow-left"></i></button></div>
+            <div class="hero-ctl-prev hidden shrink-0 md:flex"><button type="button" data-hero-prev class="hero-arrow" aria-label="{{ __('Sebelumnya') }}"><i class="fa-solid fa-arrow-left"></i></button></div>
 
-            <div class="hidden shrink-0 items-baseline gap-1.5 font-semibold tabular-nums sm:flex">
+            <div class="hero-ctl-count hidden shrink-0 items-baseline gap-1.5 font-semibold tabular-nums sm:flex">
                 <span class="overflow-hidden text-4xl leading-none lg:text-5xl"><span data-hero-current class="hero-count-current">01</span></span>
                 <span class="text-sm text-white/50">/ {{ str_pad($sliders->count(), 2, '0', STR_PAD_LEFT) }}</span>
             </div>
@@ -132,11 +132,21 @@
             </div>
 
             {{-- next arrow: bottom-right corner --}}
-            <div class="hidden shrink-0 md:flex"><button type="button" data-hero-next class="hero-arrow" aria-label="{{ __('Berikutnya') }}"><i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="hero-ctl-next hidden shrink-0 md:flex"><button type="button" data-hero-next class="hero-arrow" aria-label="{{ __('Berikutnya') }}"><i class="fa-solid fa-arrow-right"></i></button></div>
         </div>
     </div>
 
 </section>
+<style>
+    /* phones: same controls as desktop (prev / counter / next), tab bars on their own row above them */
+    @media (max-width: 767px) {
+        .hero-ui > div { flex-wrap: wrap; align-items: center; gap: .75rem; padding-bottom: 1rem; }
+        .hero-ui [role="tablist"] { order: -1; flex: 1 1 100%; }
+        .hero-ui .hero-ctl-prev, .hero-ui .hero-ctl-next, .hero-ui .hero-ctl-count { display: flex; }
+        .hero-ui .hero-arrow { width: 2.5rem; height: 2.5rem; font-size: .8rem; }
+        .hero-ui .hero-ctl-count > span:first-child { font-size: 1.35rem; }
+    }
+</style>
 
 @if ($sliders->contains(fn ($s) => filled($s->video_path)))
     {{-- Video player opened by the play button on a slide. Styles/script are inline because the deployed CSS/JS build is not rebuilt. --}}
