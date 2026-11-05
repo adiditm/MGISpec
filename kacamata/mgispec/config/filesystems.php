@@ -40,7 +40,11 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            // Shared hosting (dev server) has no symlink: public/storage is a real folder, so uploads must be
+            // written straight into it or they are never served. With a normal storage:link symlink nothing changes.
+            'root' => (is_dir(public_path('storage')) && ! is_link(public_path('storage')))
+                ? public_path('storage')
+                : storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,
