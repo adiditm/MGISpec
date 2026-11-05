@@ -110,15 +110,19 @@
     {{-- Bottom UI: counter · progress tabs · arrows --}}
     <div data-hero-ui class="hero-ui relative z-20">
         <div class="mx-auto flex max-w-[1440px] items-end gap-6 px-5 pb-7 sm:px-10 lg:gap-10 lg:px-20 lg:pb-10 2xl:pr-20 max-2xl:md:pr-48 max-md:pr-24">
+            {{-- previous arrow: bottom-left corner of the slide --}}
+            <div class="hidden shrink-0 md:flex"><button type="button" data-hero-prev class="hero-arrow" aria-label="{{ __('Sebelumnya') }}"><i class="fa-solid fa-arrow-left"></i></button></div>
+
             <div class="hidden shrink-0 items-baseline gap-1.5 font-semibold tabular-nums sm:flex">
                 <span class="overflow-hidden text-4xl leading-none lg:text-5xl"><span data-hero-current class="hero-count-current">01</span></span>
                 <span class="text-sm text-white/50">/ {{ str_pad($sliders->count(), 2, '0', STR_PAD_LEFT) }}</span>
             </div>
 
-            <div class="flex flex-1 gap-2 sm:gap-4" role="tablist">
+            {{-- min-width:0 lets long tab labels shrink (and truncate) instead of pushing the arrow out of the slide --}}
+            <div class="flex flex-1 gap-2 sm:gap-4" style="min-width:0" role="tablist">
                 @foreach ($sliders as $i => $slide)
                     @php $label = $slide->t('title') ?: $slide->t('cta_text') ?: 'Slide '.($i + 1); @endphp
-                    <button type="button" data-hero-tab class="hero-tab group flex-1 text-left" aria-label="{{ $label }}">
+                    <button type="button" data-hero-tab class="hero-tab group flex-1 text-left" style="min-width:0" aria-label="{{ $label }}">
                         <span class="label mb-3 hidden truncate text-xs font-medium tracking-wide lg:block">
                             <span class="mr-1.5 text-white/50">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>{{ $label }}
                         </span>
@@ -127,10 +131,8 @@
                 @endforeach
             </div>
 
-            <div class="hidden shrink-0 gap-3 md:flex">
-                <button type="button" data-hero-prev class="hero-arrow" aria-label="{{ __('Sebelumnya') }}"><i class="fa-solid fa-arrow-left"></i></button>
-                <button type="button" data-hero-next class="hero-arrow" aria-label="{{ __('Berikutnya') }}"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+            {{-- next arrow: bottom-right corner --}}
+            <div class="hidden shrink-0 md:flex"><button type="button" data-hero-next class="hero-arrow" aria-label="{{ __('Berikutnya') }}"><i class="fa-solid fa-arrow-right"></i></button></div>
         </div>
     </div>
 
