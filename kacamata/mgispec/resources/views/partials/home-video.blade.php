@@ -6,10 +6,10 @@
 @endphp
 
 @if ($hvEnabled && $hvVideo)
-    <section class="mgi-hv relative bg-white pt-8 lg:pt-12" aria-label="{{ __('Putar video') }}" data-home-video>
-        <div class="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
-            <div class="mgi-hv__frame relative overflow-hidden rounded-2xl bg-black shadow-xl shadow-black/10 lg:rounded-3xl" data-animate>
-                <video class="mgi-hv__video block h-full w-full object-cover" data-hv-video muted loop playsinline preload="none"
+    <section class="mgi-hv relative bg-white" aria-label="{{ __('Putar video') }}" data-home-video>
+        <div>
+            <div class="mgi-hv__frame relative overflow-hidden bg-black" data-animate>
+                <video class="mgi-hv__video block h-full w-full object-cover" data-hv-video muted loop playsinline preload="none" disablePictureInPicture controlsList="nodownload noremoteplayback"
                        @if ($hvPoster) poster="{{ $hvPoster }}" @endif data-src="{{ $hvVideo }}"></video>
 
                 {{-- shown when the browser blocks autoplay (or the visitor prefers reduced motion) --}}
@@ -31,7 +31,10 @@
     </section>
 
     <style>
-        .mgi-hv__frame { aspect-ratio: 2430 / 540; cursor: pointer; }
+        /* spacing is inline on purpose: the server's Tailwind build does not know every utility class */
+        .mgi-hv { padding-top: clamp(2.5rem, 5vw, 4.5rem); }
+        .mgi-hv__frame { position: relative; overflow: hidden; background: #000; width: 100%; aspect-ratio: 2430 / 540; cursor: pointer; }
+        .mgi-hv__video { display: block; width: 100%; height: 100%; object-fit: cover; }
         .mgi-hv__frame:fullscreen { aspect-ratio: auto; border-radius: 0; }
         .mgi-hv__frame:fullscreen .mgi-hv__video { object-fit: contain; }
         .mgi-hv__frame:-webkit-full-screen { aspect-ratio: auto; border-radius: 0; }
