@@ -3,6 +3,9 @@
 @section('content')
     @include('partials.hero')
 
+    {{-- Video beranda (CMS: Beranda → Video Beranda), tepat di bawah slider --}}
+    @include('partials.home-video')
+
     {{-- Antara slider besar & footer: kartu manfaat / promo sebagai "slider kecil" --}}
     @if ($promos->isNotEmpty())
         <section id="technologies" class="relative overflow-hidden bg-white py-16 lg:py-24 scroll-mt-20">
