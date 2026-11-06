@@ -32,7 +32,7 @@
 
     <style>
         /* spacing is inline on purpose: the server's Tailwind build does not know every utility class */
-        .mgi-hv { padding-top: clamp(2.5rem, 5vw, 4.5rem); }
+        .mgi-hv { padding-top: clamp(1.25rem, 2.5vw, 2.25rem); }
         .mgi-hv__frame { position: relative; overflow: hidden; background: #000; width: 100%; aspect-ratio: 2430 / 540; cursor: pointer; }
         .mgi-hv__video { display: block; width: 100%; height: 100%; object-fit: cover; }
         .mgi-hv__frame:fullscreen { aspect-ratio: auto; border-radius: 0; }
