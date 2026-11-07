@@ -14,10 +14,8 @@
     $techTabs = ['frame' => [__('Teknologi Frame'), $frameTechs], 'lens' => [__('Teknologi Lensa'), $lensTechs]];
     $description = $product->t('description');
 
-    // Banner thumbnail per model (test: MS016 only, no CMS yet). Default sits under the breadcrumb;
-    // ?banner=atas puts it right under the menu (above the breadcrumb) so both options can be compared.
+    // Banner thumbnail per model, shown under the breadcrumb (test: MS016 only, no CMS yet).
     $bannerFile = str_contains(strtoupper((string) $product->sku), 'MS016') ? 'images/banners/ms016-safety-glasses-'.(in_array(app()->getLocale(), ['id', 'en', 'cn']) ? app()->getLocale() : 'en').'.webp' : null;
-    $bannerTop = request('banner') === 'atas';
     $bannerHtml = $bannerFile ? '<div class="mgi-pbanner"><img src="'.e(asset($bannerFile)).'" alt="'.e($name).'" width="2172" height="724" decoding="async"></div>' : '';
 @endphp
 
@@ -26,14 +24,12 @@
 @section('content')
     @if ($bannerFile)
         <style>
-            .mgi-pbanner { margin: 0 0 1.25rem; border-radius: 1rem; overflow: hidden; line-height: 0; background: #e8f1fb; }
+            .mgi-pbanner { margin: 1.25rem 0 0; border-radius: 1rem; overflow: hidden; line-height: 0; background: #e8f1fb; }
             .mgi-pbanner img { display: block; width: 100%; height: auto; }
-            nav[aria-label="Breadcrumb"] + .mgi-pbanner { margin-top: 1.25rem; margin-bottom: 0; }
         </style>
     @endif
     <section class="bg-white pt-6 pb-14 lg:pt-10 lg:pb-20">
         <div class="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
-            @if ($bannerTop){!! $bannerHtml !!}@endif
             <nav class="flex flex-wrap items-center gap-x-2 text-xs text-gray-400" aria-label="Breadcrumb">
                 <a href="{{ route('home') }}" class="hover:text-gray-900">{{ __('Home') }}</a><span>/</span>
                 <a href="{{ route('catalog.index') }}" class="hover:text-gray-900">{{ __('Katalog') }}</a>
@@ -43,7 +39,7 @@
                 <span>/</span><span class="text-gray-700">{{ $name }}</span>
             </nav>
 
-            @unless ($bannerTop){!! $bannerHtml !!}@endunless
+            {!! $bannerHtml !!}
             <div class="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-2 lg:gap-14">
                 {{-- Gallery (min-width: 0 stops Swiper slides from stretching the single auto grid column on mobile) --}}
                 <div data-gallery class="lg:sticky lg:top-28 lg:self-start" style="min-width: 0">
