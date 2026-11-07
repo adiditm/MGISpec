@@ -22,10 +22,14 @@
 @extends('layouts.app', ['title' => $name, 'description' => $product->t('short_description')])
 
 @section('content')
+    {{-- phones: the single grid column must be allowed to shrink (minmax(0,1fr)); otherwise the gallery swiper stretches it wider than the screen and the whole page overflows sideways --}}
+    <style>@media (max-width: 1023px) { .mgi-pgrid { grid-template-columns: minmax(0, 1fr); } }</style>
     @if ($bannerFile)
         <style>
             .mgi-pbanner { margin: 1.25rem 0 0; border-radius: 1rem; overflow: hidden; line-height: 0; background: #e8f1fb; }
             .mgi-pbanner img { display: block; width: 100%; height: auto; }
+            /* phones stack everything vertically, so keep the space above/below the banner tight */
+            @media (max-width: 1023px) { .mgi-pbanner { margin-top: .625rem; border-radius: .75rem; } .mgi-pbanner + .mgi-pgrid { margin-top: .875rem; } }
         </style>
     @endif
     <section class="bg-white pt-6 pb-14 lg:pt-10 lg:pb-20">
@@ -40,7 +44,7 @@
             </nav>
 
             {!! $bannerHtml !!}
-            <div class="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-2 lg:gap-14">
+            <div class="mgi-pgrid mt-6 grid gap-8 lg:mt-8 lg:grid-cols-2 lg:gap-14">
                 {{-- Gallery (min-width: 0 stops Swiper slides from stretching the single auto grid column on mobile) --}}
                 <div data-gallery class="lg:sticky lg:top-28 lg:self-start" style="min-width: 0">
                     <div class="swiper gallery-main overflow-hidden rounded-3xl bg-gray-100">
@@ -157,7 +161,10 @@
         </div>
     </section>
 
-    @include('partials.certificates')
+    {{-- the banner already carries the certification logos, so the Sertifikat slider is hidden on products that have one --}}
+    @unless ($bannerFile)
+        @include('partials.certificates')
+    @endunless
 
     @if ($related->isNotEmpty())
         <section class="bg-gray-50 py-14 lg:py-20">
