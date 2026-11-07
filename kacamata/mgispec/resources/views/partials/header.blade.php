@@ -58,7 +58,7 @@
             @endif
 
             <button type="button" data-drawer-open class="grid h-11 w-11 place-items-center rounded-full transition hover:bg-current/10 xl:hidden" aria-label="Menu">
-                <i class="fa-solid fa-bars-staggered text-xl"></i>
+                <i class="fa-solid fa-bars text-xl"></i>
             </button>
         </div>
     </div>
