@@ -104,7 +104,7 @@
                     @endif
 
                     <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-                        <a href="{{ $waUrl }}" target="_blank" rel="noopener"
+                        <a href="{{ $waUrl }}" data-wa-choose data-wa-text="{{ $waText.' '.url()->current() }}" target="_blank" rel="noopener"
                            class="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-[#25D366] px-7 py-4 text-base font-semibold text-white shadow-lg shadow-green-500/25 transition hover:-translate-y-0.5 hover:bg-[#1ebe5a]">
                             <i class="fa-brands fa-whatsapp text-2xl"></i> {{ __('Tanya via WhatsApp') }}
                         </a>

@@ -35,6 +35,7 @@
 
     {{-- Floating contact, as on the client's reference site --}}
     <a href="https://wa.me/{{ $wa }}?text={{ rawurlencode(__('Halo MGISpec, saya ingin bertanya tentang produk kacamata.')) }}"
+       data-wa-choose data-wa-text="{{ __('Halo MGISpec, saya ingin bertanya tentang produk kacamata.') }}"
        target="_blank" rel="noopener"
        class="group fixed bottom-5 right-5 z-40 flex items-center gap-2">
         <span class="hidden sm:block rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-xl ring-1 ring-black/5 transition group-hover:-translate-x-1">
@@ -45,5 +46,7 @@
             <i class="fa-brands fa-whatsapp relative text-[1.7rem]"></i>
         </span>
     </a>
+
+    @include('partials.wa-chooser')
 </body>
 </html>

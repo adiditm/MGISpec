@@ -18,7 +18,7 @@
                             </a>
                         @endif
                     @endforeach
-                    <a href="https://wa.me/{{ Setting::get('whatsapp') }}" target="_blank" rel="noopener" aria-label="WhatsApp"
+                    <a href="https://wa.me/{{ Setting::get('whatsapp') }}" data-wa-choose data-wa-text="{{ __('Halo MGISpec, saya ingin bertanya tentang produk kacamata.') }}" target="_blank" rel="noopener" aria-label="WhatsApp"
                        class="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-white ring-1 ring-white/10 transition hover:bg-[#25D366]">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>

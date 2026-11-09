@@ -18,10 +18,7 @@ class ContactController extends Controller
                 'phone' => '+62 821-2881-5099',
                 'whatsapp' => '6282128815099',
                 // Indonesia has two hotlines (shown as separate lines and WhatsApp buttons)
-                'contacts' => [
-                    ['label' => ['id' => 'Customer Service', 'en' => 'Customer Service', 'cn' => '客户服务'], 'phone' => '+62 821-2881-5099', 'whatsapp' => '6282128815099'],
-                    ['label' => ['id' => 'Hotline Tim Marketing', 'en' => 'Marketing Team Hotline', 'cn' => '营销团队热线'], 'phone' => '+62 823-1929-4294', 'whatsapp' => '6282319294294'],
-                ],
+                'contacts' => \App\Support\WhatsAppContacts::indonesia(),
                 'email' => 'mgiclubindonesia@gmail.com',
                 'hours' => [
                     'id' => ['Senin - Jumat 10.00 WIB - 18.00 WIB', 'Sabtu 10.00 WIB - 14.00 WIB'],
