@@ -69,6 +69,15 @@ class ProductResource extends Resource
                     FileUpload::make('gallery')->label('Galeri foto (bisa banyak, drag untuk urutkan)')
                         ->image()->multiple()->reorderable()->appendFiles()->panelLayout('grid')
                         ->directory('products')->maxFiles(12)->maxSize(4096),
+
+                    Section::make('Banner thumbnail (opsional)')
+                        ->description('Tampil di halaman produk, tepat di bawah breadcrumb. Ukuran rekomendasi 2172 × 724 px (3:1). Kalau tidak diisi, banner tidak tampil. Bahasa yang kosong memakai gambar bahasa lain (Mandarin → Inggris → Indonesia).')
+                        ->schema(collect(\App\Support\I18n::enabledLocales())->map(
+                            fn ($meta, $code) => FileUpload::make("banner_image.{$code}")
+                                ->label("Banner ({$meta['short']})")
+                                ->image()->directory('products/banners')->imageEditor()->maxSize(4096)
+                        )->values()->all())
+                        ->columns(3)->collapsible(),
                 ]),
 
                 Tabs\Tab::make('Deskripsi')->icon('heroicon-m-document-text')->schema([

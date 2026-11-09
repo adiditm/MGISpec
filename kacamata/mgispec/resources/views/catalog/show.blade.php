@@ -14,9 +14,9 @@
     $techTabs = ['frame' => [__('Teknologi Frame'), $frameTechs], 'lens' => [__('Teknologi Lensa'), $lensTechs]];
     $description = $product->t('description');
 
-    // Banner thumbnail per model, shown under the breadcrumb (test: MS016 only, no CMS yet).
-    $bannerFile = str_contains(strtoupper((string) $product->sku), 'MS016') ? 'images/banners/ms016-safety-glasses-'.(in_array(app()->getLocale(), ['id', 'en', 'cn']) ? app()->getLocale() : 'en').'.webp' : null;
-    $bannerHtml = $bannerFile ? '<div class="mgi-pbanner"><img src="'.e(asset($bannerFile)).'" alt="'.e($name).'" width="2172" height="724" decoding="async"></div>' : '';
+    // Banner thumbnail per model (CMS: Produk > Foto > Banner), shown under the breadcrumb; nothing when the product has none.
+    $bannerFile = $product->bannerUrl();
+    $bannerHtml = $bannerFile ? '<div class="mgi-pbanner"><img src="'.e($bannerFile).'" alt="'.e($name).'" decoding="async"></div>' : '';
 @endphp
 
 @extends('layouts.app', ['title' => $name, 'description' => $product->t('short_description')])

@@ -19,6 +19,7 @@ class Product extends Model
         'short_description' => 'array',
         'description' => 'array',
         'gallery' => 'array',
+        'banner_image' => 'array',
         'highlights' => 'array',
         'specs' => 'array',
         'technologies' => 'array',
@@ -83,6 +84,14 @@ class Product extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('id');
+    }
+
+    /** Banner thumbnail for the current language (falls back like other localized fields); null when none is set. */
+    public function bannerUrl(?string $locale = null): ?string
+    {
+        $path = \App\Support\I18n::pick($this->banner_image, $locale);
+
+        return is_string($path) && filled($path) ? Media::url($path) : null;
     }
 
     /** Thumbnail first, then gallery images, de-duplicated, as URLs. */
