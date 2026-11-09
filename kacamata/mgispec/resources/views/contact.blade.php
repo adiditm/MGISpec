@@ -39,6 +39,11 @@
                         $hours = isset($branch['hours']) ? ($branch['hours'][$locale] ?? $branch['hours']['en'] ?? $branch['hours']['id']) : [];
                         $waText = __('Halo MGISpec :country, saya ingin konsultasi mengenai produk kacamata medis.', ['country' => $countryName]);
                         $waLink = isset($branch['whatsapp']) ? 'https://wa.me/'.$branch['whatsapp'].'?text='.rawurlencode($waText) : null;
+                        // a branch with several hotlines lists each one with its own label and WhatsApp button
+                        $contacts = collect($branch['contacts'] ?? [])->map(fn ($c) => $c + [
+                            'name' => $c['label'][$locale] ?? $c['label']['en'] ?? $c['label']['id'],
+                            'wa' => 'https://wa.me/'.$c['whatsapp'].'?text='.rawurlencode($waText),
+                        ]);
                         $email = $branch['email'] ?? null;
                     @endphp
 
@@ -63,7 +68,17 @@
                                         <span>{!! collect($hours)->map(fn ($line) => e($line))->implode('<br>') !!}</span>
                                     </li>
                                 @endif
-                                @if (isset($branch['phone']))
+                                @if ($contacts->isNotEmpty())
+                                    @foreach ($contacts as $contact)
+                                        <li class="flex gap-3">
+                                            <i class="fa-solid fa-phone mt-1 text-brand-600 shrink-0"></i>
+                                            <span>
+                                                <strong class="block text-xs font-semibold tracking-wide text-gray-500 uppercase">{{ $contact['name'] }}</strong>
+                                                <a href="tel:{{ $contact['phone'] }}" class="font-medium text-gray-900 hover:text-brand-600">{{ $contact['phone'] }}</a>
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                @elseif (isset($branch['phone']))
                                     <li class="flex gap-3">
                                         <i class="fa-solid fa-phone mt-1 text-brand-600 shrink-0"></i>
                                         <a href="tel:{{ $branch['phone'] }}" class="font-medium text-gray-900 hover:text-brand-600">{{ $branch['phone'] }}</a>
@@ -80,7 +95,14 @@
 
                         @if ($waLink || $email)
                         <div class="mt-8 pt-6 border-t border-gray-100 flex flex-wrap items-center gap-3">
-                            @if ($waLink)
+                            @if ($contacts->isNotEmpty())
+                                @foreach ($contacts as $contact)
+                                    <a href="{{ $contact['wa'] }}" target="_blank" rel="noopener"
+                                       class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-xs sm:text-sm font-semibold text-white shadow-md shadow-green-500/20 transition hover:-translate-y-0.5 hover:bg-[#1ebe5a]">
+                                        <i class="fa-brands fa-whatsapp text-lg"></i> {{ $contact['name'] }}
+                                    </a>
+                                @endforeach
+                            @elseif ($waLink)
                             <a href="{{ $waLink }}" target="_blank" rel="noopener"
                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-xs sm:text-sm font-semibold text-white shadow-md shadow-green-500/20 transition hover:-translate-y-0.5 hover:bg-[#1ebe5a]">
                                 <i class="fa-brands fa-whatsapp text-lg"></i> {{ __('Chat WhatsApp') }}

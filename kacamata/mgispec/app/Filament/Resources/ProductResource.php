@@ -78,6 +78,16 @@ class ProductResource extends Resource
                                 ->image()->directory('products/banners')->imageEditor()->maxSize(4096)
                         )->values()->all())
                         ->columns(3)->collapsible(),
+
+                    Section::make('Katalog PDF (opsional)')
+                        ->description('File yang diunduh lewat tombol "Unduh Katalog" di halaman produk. Format PDF, maksimal 30 MB. Kalau tidak diisi, tombolnya tidak tampil. Bahasa yang kosong memakai file bahasa lain (Mandarin → Inggris → Indonesia).')
+                        ->schema(collect(\App\Support\I18n::enabledLocales())->map(
+                            fn ($meta, $code) => FileUpload::make("catalog_pdf.{$code}")
+                                ->label("Katalog ({$meta['short']})")
+                                ->acceptedFileTypes(['application/pdf'])->directory('catalogs')->maxSize(30720)
+                                ->downloadable()->openable()
+                        )->values()->all())
+                        ->columns(3)->collapsible(),
                 ]),
 
                 Tabs\Tab::make('Deskripsi')->icon('heroicon-m-document-text')->schema([

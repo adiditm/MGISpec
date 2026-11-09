@@ -16,6 +16,7 @@
 
     // Banner thumbnail per model (CMS: Produk > Foto > Banner), shown under the breadcrumb; nothing when the product has none.
     $bannerFile = $product->bannerUrl();
+    $catalogUrl = $product->catalogUrl(); // CMS: Produk > Foto > Katalog PDF; no file = no download button
     $bannerHtml = $bannerFile ? '<div class="mgi-pbanner"><img src="'.e($bannerFile).'" alt="'.e($name).'" decoding="async"></div>' : '';
 @endphp
 
@@ -107,9 +108,12 @@
                            class="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-[#25D366] px-7 py-4 text-base font-semibold text-white shadow-lg shadow-green-500/25 transition hover:-translate-y-0.5 hover:bg-[#1ebe5a]">
                             <i class="fa-brands fa-whatsapp text-2xl"></i> {{ __('Tanya via WhatsApp') }}
                         </a>
-                        <a href="{{ route('catalog.index') }}" class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-4 text-sm font-semibold text-gray-700 ring-1 ring-gray-300 transition hover:ring-gray-900">
-                            <i class="fa-solid fa-grip text-xs"></i> {{ __('Lihat Katalog') }}
-                        </a>
+                        @if ($catalogUrl)
+                            <a href="{{ $catalogUrl }}" download="{{ basename(parse_url($catalogUrl, PHP_URL_PATH)) }}" target="_blank" rel="noopener"
+                               class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-4 text-sm font-semibold text-gray-700 ring-1 ring-gray-300 transition hover:ring-gray-900">
+                                <i class="fa-solid fa-download text-xs"></i> {{ __('Unduh Katalog') }}
+                            </a>
+                        @endif
                     </div>
 
                     <div class="mt-8 grid grid-cols-2 gap-3 text-xs text-gray-600">

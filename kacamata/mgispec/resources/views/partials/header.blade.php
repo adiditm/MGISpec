@@ -51,11 +51,13 @@
                 <i class="fa-regular fa-circle-user text-lg"></i> {{ __('Login') }}
             </a>
 
-            @if ($fb = \App\Models\Setting::get('facebook'))
-                <a href="{{ $fb }}" target="_blank" rel="noopener" aria-label="Facebook" class="hidden h-10 w-10 place-items-center rounded-full transition hover:bg-current/10 sm:grid">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-            @endif
+            @foreach (['Facebook' => ['facebook', 'fa-facebook-f'], 'Instagram' => ['instagram', 'fa-instagram'], 'TikTok' => ['tiktok', 'fa-tiktok']] as $socialName => [$socialKey, $socialIcon])
+                @if ($socialLink = \App\Models\Setting::get($socialKey))
+                    <a href="{{ $socialLink }}" target="_blank" rel="noopener" aria-label="{{ $socialName }}" class="hidden h-10 w-10 place-items-center rounded-full transition hover:bg-current/10 sm:grid">
+                        <i class="fa-brands {{ $socialIcon }}"></i>
+                    </a>
+                @endif
+            @endforeach
 
             <button type="button" data-drawer-open class="grid h-11 w-11 place-items-center rounded-full transition hover:bg-current/10 xl:hidden" aria-label="Menu">
                 <i class="fa-solid fa-bars text-xl"></i>
@@ -89,8 +91,8 @@
                 </a>
             @endforeach
         </div>
-        {{-- the header hides its Facebook icon on phones, so the drawer carries the social links --}}
-        @php $drawerSocials = array_filter(['Facebook' => ['fa-facebook-f', \App\Models\Setting::get('facebook')], 'Instagram' => ['fa-instagram', \App\Models\Setting::get('instagram')]], fn ($s) => filled($s[1])); @endphp
+        {{-- the header hides its social icons on phones, so the drawer carries the social links --}}
+        @php $drawerSocials = array_filter(['Facebook' => ['fa-facebook-f', \App\Models\Setting::get('facebook')], 'Instagram' => ['fa-instagram', \App\Models\Setting::get('instagram')], 'TikTok' => ['fa-tiktok', \App\Models\Setting::get('tiktok')]], fn ($s) => filled($s[1])); @endphp
         @if ($drawerSocials)
             <div class="flex items-center justify-center gap-3">
                 @foreach ($drawerSocials as $name => [$icon, $link])

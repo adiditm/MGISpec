@@ -20,6 +20,7 @@ class Product extends Model
         'description' => 'array',
         'gallery' => 'array',
         'banner_image' => 'array',
+        'catalog_pdf' => 'array',
         'highlights' => 'array',
         'specs' => 'array',
         'technologies' => 'array',
@@ -90,6 +91,14 @@ class Product extends Model
     public function bannerUrl(?string $locale = null): ?string
     {
         $path = \App\Support\I18n::pick($this->banner_image, $locale);
+
+        return is_string($path) && filled($path) ? Media::url($path) : null;
+    }
+
+    /** Catalog PDF for the current language (Chinese falls back to English, English to Indonesian); null when none is set. */
+    public function catalogUrl(?string $locale = null): ?string
+    {
+        $path = \App\Support\I18n::pick($this->catalog_pdf, $locale);
 
         return is_string($path) && filled($path) ? Media::url($path) : null;
     }

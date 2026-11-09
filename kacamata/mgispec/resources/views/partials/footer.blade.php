@@ -10,7 +10,7 @@
                 <img src="{{ asset('images/logo-sm.png') }}" alt="MGISpec" class="h-11 w-auto">
                 <p class="mt-5 max-w-sm text-sm leading-relaxed">{{ Setting::get('footer_about') }}</p>
                 <div class="mt-6 flex gap-3">
-                    @foreach (['facebook' => 'fa-facebook-f', 'instagram' => 'fa-instagram'] as $key => $icon)
+                    @foreach (['facebook' => 'fa-facebook-f', 'instagram' => 'fa-instagram', 'tiktok' => 'fa-tiktok'] as $key => $icon)
                         @if ($link = Setting::get($key))
                             <a href="{{ $link }}" target="_blank" rel="noopener" aria-label="{{ ucfirst($key) }}"
                                class="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-white ring-1 ring-white/10 transition hover:bg-brand-600">

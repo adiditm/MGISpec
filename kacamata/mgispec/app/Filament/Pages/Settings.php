@@ -47,6 +47,7 @@ class Settings extends Page implements HasForms
             Section::make('Media Sosial')->columns(2)->schema([
                 TextInput::make('facebook')->url(),
                 TextInput::make('instagram')->url(),
+                TextInput::make('tiktok')->url(),
             ]),
             Section::make('Footer')->schema([
                 Bilingual::textarea('footer_about', 'Profil singkat', rows: 3),
