@@ -116,6 +116,82 @@
                         @endif
                     </div>
 
+                    {{-- Share this page (partners post the product link on their own social media). Self-contained CSS/JS: the server's Tailwind build lacks some utilities. --}}
+                    @php
+                        $shareUrl = url()->current();
+                        $shareTitle = $name;
+                        $shareEnc = rawurlencode($shareUrl);
+                        $shareTitleEnc = rawurlencode($shareTitle);
+                        $shareLinks = [
+                            ['Facebook', 'fa-facebook-f', 'https://www.facebook.com/sharer/sharer.php?u='.$shareEnc, '#1877F2'],
+                            ['Instagram', 'fa-instagram', null, '#E4405F'],
+                            ['TikTok', 'fa-tiktok', null, '#000000'],
+                            ['X', 'fa-x-twitter', 'https://twitter.com/intent/tweet?url='.$shareEnc.'&text='.$shareTitleEnc, '#000000'],
+                            ['Threads', 'fa-threads', 'https://www.threads.net/intent/post?text='.rawurlencode($shareTitle.' '.$shareUrl), '#000000'],
+                            ['WhatsApp', 'fa-whatsapp', 'https://wa.me/?text='.rawurlencode($shareTitle.' '.$shareUrl), '#25D366'],
+                            ['Telegram', 'fa-telegram', 'https://t.me/share/url?url='.$shareEnc.'&text='.$shareTitleEnc, '#26A5E4'],
+                            ['LINE', 'fa-line', 'https://social-plugins.line.me/lineit/share?url='.$shareEnc, '#06C755'],
+                            ['LinkedIn', 'fa-linkedin-in', 'https://www.linkedin.com/sharing/share-offsite/?url='.$shareEnc, '#0A66C2'],
+                        ];
+                        if (app()->getLocale() === 'cn') {
+                            $shareLinks[] = ['微博', 'fa-weibo', 'https://service.weibo.com/share/share.php?url='.$shareEnc.'&title='.$shareTitleEnc, '#E6162D'];
+                        }
+                    @endphp
+                    <style>
+                        .mgi-share { margin-top: 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+                        .mgi-share-label { margin-right: .25rem; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9ca3af; }
+                        .mgi-share a, .mgi-share button { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 9999px; border: 1px solid #e5e7eb; background: #fff; color: #4b5563; font-size: .95rem; cursor: pointer; padding: 0; transition: color .15s, background-color .15s, border-color .15s, transform .15s; }
+                        .mgi-share a:hover, .mgi-share button:hover, .mgi-share a:focus-visible, .mgi-share button:focus-visible { color: #fff; background: var(--c); border-color: var(--c); transform: translateY(-2px); outline: none; }
+                        .mgi-share-toast { position: fixed; left: 50%; bottom: 5.5rem; z-index: 90; transform: translate(-50%, .5rem); max-width: calc(100vw - 2rem); padding: .625rem 1rem; border-radius: 9999px; background: #111827; color: #fff; font-size: .8125rem; font-weight: 500; text-align: center; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+                        .mgi-share-toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+                    </style>
+                    <div class="mgi-share" data-share data-share-url="{{ $shareUrl }}" data-share-title="{{ $shareTitle }}" data-msg-copied="{{ __('Tautan disalin') }}" data-msg-app="{{ __('Tautan disalin, tempel di :app') }}">
+                        <span class="mgi-share-label">{{ __('Bagikan') }}</span>
+                        @foreach ($shareLinks as [$label, $icon, $href, $color])
+                            @if ($href)
+                                <a href="{{ $href }}" target="_blank" rel="noopener noreferrer" style="--c: {{ $color }}" title="{{ __('Bagikan ke') }} {{ $label }}" aria-label="{{ __('Bagikan ke') }} {{ $label }}"><i class="fa-brands {{ $icon }}"></i></a>
+                            @else
+                                {{-- Instagram and TikTok have no web share link: phones open the system share sheet, desktops copy the link --}}
+                                <button type="button" data-share-app="{{ $label }}" style="--c: {{ $color }}" title="{{ __('Bagikan ke') }} {{ $label }}" aria-label="{{ __('Bagikan ke') }} {{ $label }}"><i class="fa-brands {{ $icon }}"></i></button>
+                            @endif
+                        @endforeach
+                        <button type="button" data-share-copy style="--c: #111827" title="{{ __('Salin tautan') }}" aria-label="{{ __('Salin tautan') }}"><i class="fa-solid fa-link"></i></button>
+                    </div>
+                    <div class="mgi-share-toast" data-share-toast role="status" aria-live="polite"></div>
+                    <script>
+                        (function () {
+                            var box = document.querySelector('[data-share]');
+                            if (!box) return;
+                            var toast = document.querySelector('[data-share-toast]'), timer;
+                            var url = box.dataset.shareUrl, title = box.dataset.shareTitle;
+                            function say(msg) {
+                                toast.textContent = msg; toast.classList.add('is-on');
+                                clearTimeout(timer); timer = setTimeout(function () { toast.classList.remove('is-on'); }, 2600);
+                            }
+                            function copy(msg) {
+                                function fallback() {
+                                    var t = document.createElement('textarea');
+                                    t.value = url; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;opacity:0';
+                                    document.body.appendChild(t); t.select();
+                                    try { document.execCommand('copy'); say(msg); } catch (e) { window.prompt('', url); }
+                                    document.body.removeChild(t);
+                                }
+                                if (navigator.clipboard && window.isSecureContext) {
+                                    navigator.clipboard.writeText(url).then(function () { say(msg); }, fallback);
+                                } else { fallback(); }
+                            }
+                            box.querySelector('[data-share-copy]').addEventListener('click', function () { copy(box.dataset.msgCopied); });
+                            box.querySelectorAll('[data-share-app]').forEach(function (btn) {
+                                btn.addEventListener('click', function () {
+                                    var touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+                                    if (touch && navigator.share) {
+                                        navigator.share({ title: title, url: url }).catch(function () {});
+                                    } else { copy(box.dataset.msgApp.replace(':app', btn.dataset.shareApp)); }
+                                });
+                            });
+                        })();
+                    </script>
+
                     <div class="mt-8 grid grid-cols-2 gap-3 text-xs text-gray-600">
                         <div class="flex items-center gap-3 rounded-2xl bg-gray-50 p-4"><i class="fa-solid fa-shield-halved text-xl text-brand-600"></i><span><strong class="block text-gray-900">FDA Registered</strong>U.S. FDA</span></div>
                     </div>
