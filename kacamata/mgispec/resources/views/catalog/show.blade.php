@@ -229,7 +229,37 @@
                                         <div class="rounded-2xl p-5 ring-1 ring-gray-200">
                                             <span class="brand-gradient grid h-11 w-11 place-items-center rounded-xl text-white"><i class="{{ $t['icon'] ?? 'fa-solid fa-atom' }}"></i></span>
                                             <h3 class="mt-4 font-semibold text-gray-900">{{ I18n::pick($t['title'] ?? null) }}</h3>
-                                            <p class="mt-1.5 text-sm leading-relaxed text-gray-500">{{ I18n::pick($t['description'] ?? null) }}</p>
+                                            @php
+                                                // description lines: "- text" lines become a bullet list, other lines stay paragraphs
+                                                $techBlocks = [];
+                                                foreach (preg_split('/\R/', trim((string) I18n::pick($t['description'] ?? null))) ?: [] as $techLine) {
+                                                    $techLine = trim($techLine);
+                                                    if ($techLine === '') {
+                                                        continue;
+                                                    }
+                                                    if (str_starts_with($techLine, '- ')) {
+                                                        $last = array_key_last($techBlocks);
+                                                        if ($last !== null && $techBlocks[$last][0] === 'ul') {
+                                                            $techBlocks[$last][1][] = substr($techLine, 2);
+                                                        } else {
+                                                            $techBlocks[] = ['ul', [substr($techLine, 2)]];
+                                                        }
+                                                    } else {
+                                                        $techBlocks[] = ['p', $techLine];
+                                                    }
+                                                }
+                                            @endphp
+                                            <div class="mt-1.5 text-sm leading-relaxed text-gray-500">
+                                                @foreach ($techBlocks as [$techType, $techBody])
+                                                    @if ($techType === 'ul')
+                                                        <ul style="list-style:disc;padding-left:1.1rem;margin:.4rem 0 0">
+                                                            @foreach ($techBody as $techItem)<li style="margin-top:.2rem">{{ $techItem }}</li>@endforeach
+                                                        </ul>
+                                                    @else
+                                                        <p style="margin:.4rem 0 0">{{ $techBody }}</p>
+                                                    @endif
+                                                @endforeach
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
