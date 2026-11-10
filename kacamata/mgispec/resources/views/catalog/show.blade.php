@@ -140,6 +140,13 @@
                     <style>
                         .mgi-share { margin-top: 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
                         .mgi-share-label { margin-right: .25rem; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9ca3af; }
+                        /* desktop: the icon wrapper is transparent to layout (same as before); phones: label on the left, icons wrap inside their own column so row 2 lines up under the first icon */
+                        .mgi-share-icons { display: contents; }
+                        @media (max-width: 1023px) {
+                            .mgi-share { flex-wrap: nowrap; align-items: flex-start; }
+                            .mgi-share-label { flex: none; margin-right: .5rem; line-height: 2.25rem; }
+                            .mgi-share-icons { display: flex; flex-wrap: wrap; flex: 1; min-width: 0; gap: .5rem; }
+                        }
                         .mgi-share a, .mgi-share button { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 9999px; border: 1px solid #e5e7eb; background: #fff; color: #4b5563; font-size: .95rem; cursor: pointer; padding: 0; transition: color .15s, background-color .15s, border-color .15s, transform .15s; }
                         .mgi-share a:hover, .mgi-share button:hover, .mgi-share a:focus-visible, .mgi-share button:focus-visible { color: #fff; background: var(--c); border-color: var(--c); transform: translateY(-2px); outline: none; }
                         .mgi-share-toast { position: fixed; left: 50%; bottom: 5.5rem; z-index: 90; transform: translate(-50%, .5rem); max-width: calc(100vw - 2rem); padding: .625rem 1rem; border-radius: 9999px; background: #111827; color: #fff; font-size: .8125rem; font-weight: 500; text-align: center; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
@@ -147,6 +154,7 @@
                     </style>
                     <div class="mgi-share" data-share data-share-url="{{ $shareUrl }}" data-share-title="{{ $shareTitle }}" data-msg-copied="{{ __('Tautan disalin') }}" data-msg-app="{{ __('Tautan disalin, tempel di :app') }}">
                         <span class="mgi-share-label">{{ __('Bagikan') }}</span>
+                        <div class="mgi-share-icons">
                         @foreach ($shareLinks as [$label, $icon, $href, $color])
                             @if ($href)
                                 <a href="{{ $href }}" target="_blank" rel="noopener noreferrer" style="--c: {{ $color }}" title="{{ __('Bagikan ke') }} {{ $label }}" aria-label="{{ __('Bagikan ke') }} {{ $label }}"><i class="fa-brands {{ $icon }}"></i></a>
@@ -156,6 +164,7 @@
                             @endif
                         @endforeach
                         <button type="button" data-share-copy style="--c: #111827" title="{{ __('Salin tautan') }}" aria-label="{{ __('Salin tautan') }}"><i class="fa-solid fa-link"></i></button>
+                        </div>
                     </div>
                     <div class="mgi-share-toast" data-share-toast role="status" aria-live="polite"></div>
                     <script>
