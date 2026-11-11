@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function (Request $request) {
     $locale = $request->cookie('app_locale');
 
-    // first-time visitors (no saved choice) land on English; returning visitors keep the language they picked
+    // no language chosen in this browser session (cookie is cleared when the browser closes) = English
     return redirect('/'.(array_key_exists($locale, I18n::LOCALES) ? $locale : 'en'));
 });
 

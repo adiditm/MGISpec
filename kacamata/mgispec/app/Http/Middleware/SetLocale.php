@@ -24,6 +24,7 @@ class SetLocale
 
         $response = $next($request);
 
-        return $response->withCookie(cookie()->forever('app_locale', $locale));
+        // session cookie (lifetime 0): the choice lasts until the browser is closed, then "/" lands on English again
+        return $response->withCookie(cookie('app_locale', $locale, 0));
     }
 }
