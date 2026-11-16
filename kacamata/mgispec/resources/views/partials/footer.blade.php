@@ -53,7 +53,16 @@
                 @endphp
                 <ul class="mt-5 space-y-4 text-sm">
                     @foreach ($certs as [$title, $lines])
-                        <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-400"></i><span><strong class="text-gray-200">{{ $title }}</strong>@foreach ($lines as $line)<br>{{ $line }}@endforeach</span></li>
+                        <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-400"></i><span><strong class="text-gray-200">{{ $title }}</strong>
+                            @if (count($lines) > 1)
+                                {{-- several entries: small bullets so each one reads as its own item (inline style: the server Tailwind build lacks list utilities) --}}
+                                <ul style="list-style:disc;padding-left:1.1rem;margin:.25rem 0 0">
+                                    @foreach ($lines as $line)<li style="padding-left:.15rem;margin-top:.15rem">{{ $line }}</li>@endforeach
+                                </ul>
+                            @else
+                                @foreach ($lines as $line)<br>{{ $line }}@endforeach
+                            @endif
+                        </span></li>
                     @endforeach
                 </ul>
             </div>
