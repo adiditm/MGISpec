@@ -41,13 +41,12 @@
                     $certs = [
                         [__('Terdaftar FDA'), [__('Badan Pengawas Obat dan Makanan Amerika Serikat (U.S. FDA)')]],
                         [__('Terdaftar Halal'), ['Halal Indonesia Reg RI HL CN000128113226', 'Halal Certification Services Chongqing (HCS) HCS-BSD260813']],
-                        [__('Laporan Uji Klinis'), [__('Rumah Sakit Mata Huaxia')]],
+                        [__('Laporan Uji Klinis'), [__('Uji Klinis dari Rumah Sakit Mata Huaxia (rumah sakit mata besar di Tiongkok dengan 60+ cabang)')]],
                         [__('Asuransi Tanggung Gugat'), ['Great Eastern']],
                         [__('Sertifikasi Lainnya'), [
                             __('Sertifikasi RoHS & CE'),
                             'ISO 9001 · ISO 13485 · ISO 12312-1 · ISO 16321-1 · GMP',
                             __('Registrasi Nomor FEI') . ': 3012191097',
-                            __('Uji Klinis dari Rumah Sakit Mata Huaxia (rumah sakit mata besar di Tiongkok dengan 60+ cabang)'),
                         ]],
                     ];
                 @endphp
