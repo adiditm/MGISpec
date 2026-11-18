@@ -5,7 +5,8 @@
     $nav = [
         ['label' => __('Beranda'), 'url' => route('home'), 'active' => $isHome && ! request()->has('section')],
         ['label' => __('Katalog MGISPEC'), 'url' => route('catalog.index'), 'active' => request()->routeIs('catalog.*')],
-        // Profil, Teknologi and Sertifikasi MGISPEC links are hidden until those pages are ready (feedback 27-10-2026)
+        // Profil and Teknologi MGISPEC links stay hidden until those pages are ready (feedback 27-10-2026); Sertifikasi is back (client request 18-11-2026)
+        ['label' => __('Sertifikasi MGISPEC'), 'url' => route('home').'#certifications', 'active' => false],
         ['label' => __('Kontak MGISPEC'), 'url' => route('contact'), 'active' => request()->routeIs('contact')],
     ];
     $locale = app()->getLocale();
