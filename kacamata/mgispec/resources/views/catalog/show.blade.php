@@ -280,10 +280,8 @@
         </div>
     </section>
 
-    {{-- the banner already carries the certification logos, so the Sertifikat slider is hidden on products that have one --}}
-    @unless ($bannerFile)
-        @include('partials.certificates')
-    @endunless
+    {{-- Sertifikat slider shows on every product again (client request 18-11-2026; it was hidden on products with a banner in 5aca0df) --}}
+    @include('partials.certificates')
 
     @if ($related->isNotEmpty())
         <section class="bg-gray-50 py-14 lg:py-20">
